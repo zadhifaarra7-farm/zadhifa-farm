@@ -74,10 +74,12 @@ export default function HeroSection() {
                         transition={{ delay: 0.4 }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
                     >
-                        <Button size="lg" className="w-full sm:w-auto group">
-                            Temukan Domba
-                            <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-                        </Button>
+                        <a href="#ai-finder">
+                            <Button size="lg" className="w-full sm:w-auto group">
+                                Temukan Domba
+                                <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                            </Button>
+                        </a>
                     </motion.div>
 
                     <motion.div
