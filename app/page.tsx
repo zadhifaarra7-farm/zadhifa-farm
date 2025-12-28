@@ -1,9 +1,7 @@
 import HeroSection from '@/components/landing/HeroSection';
 import AIGoatFinder from '@/components/landing/AIGoatFinder';
 import LiveTracking from '@/components/landing/LiveTracking';
-import LiveStream from '@/components/landing/LiveStream';
 import DigitalTwin from '@/components/landing/DigitalTwin';
-import TrustSection from '@/components/landing/TrustSection';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -20,15 +18,11 @@ export default function Home() {
 
             <LiveTracking />
 
-            <LiveStream />
-
             <DigitalTwin />
 
-            <TrustSection />
-
-            {/* Footer / Contact placeholder */}
+            {/* Footer */}
             <footer className="py-12 border-t border-white/5 text-center text-text-muted">
-                <p>© 2024 Zadhifa Farm. Artificial Intelligence + Traditional Care.</p>
+                <p>© 2024 Zadhifa Farm. Premium Livestock of The Future.</p>
             </footer>
         </main>
     );
