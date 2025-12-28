@@ -1,6 +1,5 @@
 import HeroSection from '@/components/landing/HeroSection';
 import AIGoatFinder from '@/components/landing/AIGoatFinder';
-import LiveTracking from '@/components/landing/LiveTracking';
 import DigitalTwin from '@/components/landing/DigitalTwin';
 import TrainingGallery from '@/components/landing/TrainingGallery';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
@@ -17,8 +16,6 @@ export default function Home() {
             <HeroSection />
 
             <AIGoatFinder />
-
-            <LiveTracking />
 
             <DigitalTwin />
 
