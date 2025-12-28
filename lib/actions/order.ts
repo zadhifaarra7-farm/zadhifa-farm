@@ -19,6 +19,7 @@ export async function createWhatsAppOrder(registrationCode: string, buyerName: s
             email: `${whatsapp}@guest.com`,
             name: buyerName,
             phone: whatsapp,
+            password: 'GUEST_USER',
         }
     });
 
