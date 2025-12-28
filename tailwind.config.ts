@@ -56,8 +56,7 @@ const config: Config = {
                 'text-muted': '#6b7c74',
             },
             fontFamily: {
-                sans: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
-                display: ['var(--font-playfair)', 'Georgia', 'serif'],
+                sans: ['Poppins', 'system-ui', 'sans-serif'],
             },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

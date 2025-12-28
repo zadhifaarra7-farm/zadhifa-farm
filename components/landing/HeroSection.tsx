@@ -49,10 +49,24 @@ export default function HeroSection() {
                         <span className="text-sm font-medium tracking-wide">Premium Livestock Platform</span>
                     </motion.div>
 
+                    {/* Logo */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.1, duration: 0.6 }}
+                        className="mb-6"
+                    >
+                        <img
+                            src="/logo.png"
+                            alt="Zadhifa Farm Logo"
+                            className="h-40 md:h-56 w-auto mx-auto drop-shadow-2xl"
+                        />
+                    </motion.div>
+
                     {/* Headline */}
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-                        The Future of <br />
-                        <span className="text-gradient-gold font-display italic">Modern Farming</span>
+                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
+                        Premium Livestock <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-farm-400 to-gold-400">of The Future</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto leading-relaxed">
