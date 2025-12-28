@@ -2,6 +2,7 @@ import HeroSection from '@/components/landing/HeroSection';
 import AIGoatFinder from '@/components/landing/AIGoatFinder';
 import LiveTracking from '@/components/landing/LiveTracking';
 import DigitalTwin from '@/components/landing/DigitalTwin';
+import TrainingGallery from '@/components/landing/TrainingGallery';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import { Metadata } from 'next';
 
@@ -20,6 +21,8 @@ export default function Home() {
             <LiveTracking />
 
             <DigitalTwin />
+
+            <TrainingGallery />
 
             {/* Bank Info Section */}
             <section className="py-16 bg-surface border-t border-white/5">
