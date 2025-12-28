@@ -82,17 +82,6 @@ export default function HeroSection() {
                         </a>
                     </motion.div>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8 }}
-                        className="pt-4"
-                    >
-                        <a href="/dashboard" className="text-sm text-farm-500 hover:text-farm-400 underline decoration-farm-500/30 underline-offset-4">
-                            Akses Admin / Peternak
-                        </a>
-                    </motion.div>
-
                     {/* Stats / Trust Indicators */}
                     <motion.div
                         initial={{ opacity: 0 }}
