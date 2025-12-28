@@ -24,17 +24,19 @@ export async function createWhatsAppOrder(registrationCode: string, buyerName: s
     });
 
     // 3. Create Order
+    const orderTotal = Number(goat.dynamicPrice || goat.basePrice);
     const order = await prisma.order.create({
         data: {
             orderNumber: `WA-${Date.now().toString().slice(-6)}`,
-            totalAmount: Number(goat.dynamicPrice || goat.basePrice),
+            subtotal: orderTotal,
+            totalAmount: orderTotal,
             status: 'PENDING',
             paymentStatus: 'UNPAID',
             userId: user.id,
             items: {
                 create: {
                     goatId: goat.id,
-                    priceAtPurchase: Number(goat.dynamicPrice || goat.basePrice),
+                    priceAtPurchase: orderTotal,
                     weightAtPurchase: Number(goat.currentWeight)
                 }
             },
