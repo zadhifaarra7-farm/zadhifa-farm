@@ -21,11 +21,14 @@ const trainingImages = [
 export default function TrainingGallery() {
     const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
+    // Duplicate images for seamless infinite scroll
+    const duplicatedImages = [...trainingImages, ...trainingImages];
+
     return (
         <section id="dokumentasi" className="section relative overflow-hidden">
             <div className="container-custom">
                 <motion.div
-                    className="text-center mb-16"
+                    className="text-center mb-12"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -41,39 +44,42 @@ export default function TrainingGallery() {
                         Zadhifa Farm aktif dalam pengembangan kapasitas dan menjalin kemitraan dengan berbagai pihak untuk kemajuan peternakan domba Indonesia.
                     </p>
                 </motion.div>
+            </div>
 
-                {/* Gallery Grid - 2 rows */}
-                <motion.div
-                    className="grid grid-cols-2 md:grid-cols-5 gap-4"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
-                >
-                    {trainingImages.map((image, i) => (
-                        <motion.div
+            {/* Auto-scrolling Marquee */}
+            <div className="relative overflow-hidden py-4">
+                {/* Gradient fade on edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0a0f0d] to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0a0f0d] to-transparent z-10 pointer-events-none" />
+
+                <div className="flex animate-marquee hover:pause-animation">
+                    {duplicatedImages.map((image, i) => (
+                        <div
                             key={i}
-                            className="relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer group"
-                            whileHover={{ scale: 1.02 }}
-                            onClick={() => setSelectedImage(i)}
+                            className="flex-shrink-0 w-72 mx-3 cursor-pointer group"
+                            onClick={() => setSelectedImage(i % trainingImages.length)}
                         >
-                            <Image
-                                src={image.src}
-                                alt={image.caption}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                <p className="text-xs font-medium text-white line-clamp-2">{image.caption}</p>
+                            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                                <Image
+                                    src={image.src}
+                                    alt={image.caption}
+                                    fill
+                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                <div className="absolute bottom-0 left-0 right-0 p-4">
+                                    <p className="text-sm font-medium text-white">{image.caption}</p>
+                                </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
-                </motion.div>
+                </div>
+            </div>
 
-                {/* Stats */}
+            {/* Stats */}
+            <div className="container-custom mt-12">
                 <motion.div
-                    className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 max-w-3xl mx-auto"
+                    className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
