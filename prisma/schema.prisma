@@ -1,0 +1,308 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Core Goat Inventory
+model Goat {
+  id                String          @id @default(uuid())
+  registrationCode  String          @unique
+  name              String
+  breed             String          // Etawa, Kacang, PE, Boer (Stored as String)
+  gender            String          // MALE, FEMALE
+  birthDate         DateTime
+  
+  // Physical Attributes
+  currentWeight     Float           // in kg
+  height            Float?          // in cm
+  bodyLength        Float?          // in cm
+  chestGirth        Float?          // in cm
+  coatColor         String?
+  
+  // Health & Status
+  healthStatus      String          @default("GOOD")
+  isAvailable       Boolean         @default(true)
+  isReserved        Boolean         @default(false)
+  isSold            Boolean         @default(false)
+  
+  // Purpose Classification
+  purposes          String          // "QURBAN,BREEDING" (Comma separated)
+  qualityGrade      String          @default("STANDARD")
+  
+  // Pricing
+  basePrice         Float           // in IDR
+  dynamicPrice      Float?          // AI-calculated price
+  pricePerKg        Float?
+  
+  // Media
+  thumbnailUrl      String?
+  mediaUrls         String          @default("[]") // JSON string
+  qrCodeUrl         String?
+  
+  // Location
+  penId             String?
+  
+  // Lineage/Pedigree
+  lineageTree       String?         // Storing as stringified JSON
+  
+  // Metadata
+  notes             String?
+  tags              String          @default("[]") // JSON string
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  
+  // Relations
+  pen               Pen?            @relation(fields: [penId], references: [id])
+  weightHistory     WeightRecord[]
+  vaccinations      Vaccination[]
+  healthChecks      HealthCheck[]
+  orderItems        OrderItem[]
+  savedBy           SavedGoat[]
+  
+  @@index([breed, gender, isAvailable])
+  @@index([dynamicPrice])
+}
+
+// Weight tracking
+model WeightRecord {
+  id            String          @id @default(uuid())
+  goatId        String
+  weight        Float
+  measuredAt    DateTime        @default(now())
+  method        String          @default("MANUAL")
+  measuredBy    String?         
+  confidence    Float?          // 0-100%
+  notes         String?
+  
+  goat          Goat            @relation(fields: [goatId], references: [id], onDelete: Cascade)
+  
+  @@index([goatId, measuredAt])
+}
+
+// Vaccination & Medical Records
+model Vaccination {
+  id              String      @id @default(uuid())
+  goatId          String
+  vaccineName     String
+  vaccineBrand    String?
+  batchNumber     String?
+  administeredAt  DateTime
+  nextDueDate     DateTime?
+  dosage          String?
+  route           String?
+  veterinarianId  String?
+  veterinarianName String?
+  notes           String?
+  createdAt       DateTime    @default(now())
+  
+  goat            Goat        @relation(fields: [goatId], references: [id], onDelete: Cascade)
+  
+  @@index([goatId, administeredAt])
+}
+
+// Health Checks
+model HealthCheck {
+  id              String        @id @default(uuid())
+  goatId          String
+  checkDate       DateTime      @default(now())
+  checkType       String
+  result          String
+  status          String
+  temperature     Float?        // Body temp in Celsius
+  heartRate       Int?
+  respiratoryRate Int?
+  bodyConditionScore Int?       // 1-5 scale
+  notes           String?
+  veterinarianName String?
+  attachments     String        @default("[]") // JSON String
+  
+  goat            Goat          @relation(fields: [goatId], references: [id], onDelete: Cascade)
+  
+  @@index([goatId, checkDate])
+}
+
+// Pens
+model Pen {
+  id              String        @id @default(uuid())
+  name            String
+  description     String?
+  capacity        Int
+  currentOccupancy Int          @default(0)
+  penType         String        @default("STANDARD")
+  
+  // IoT & Live Stream
+  cameraUrl       String?
+  cameraStatus    String        @default("OFFLINE")
+  iotSensorId     String?
+  
+  // Location
+  latitude        Float?
+  longitude       Float?
+  
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  goats           Goat[]
+  iotReadings     IoTReading[]
+  
+  @@index([isActive])
+}
+
+// IoT Sensor Readings
+model IoTReading {
+  id              String    @id @default(uuid())
+  penId           String
+  
+  // Environmental Data
+  temperature     Float?
+  humidity        Float?
+  ammonia         Float?
+  co2Level        Float?
+  lightIntensity  Float?
+  
+  // Metadata
+  recordedAt      DateTime  @default(now())
+  isAnomaly       Boolean   @default(false)
+  
+  pen             Pen       @relation(fields: [penId], references: [id], onDelete: Cascade)
+  
+  @@index([penId, recordedAt])
+}
+
+// Orders
+model Order {
+  id              String        @id @default(uuid())
+  orderNumber     String        @unique
+  userId          String
+  
+  // Order Details
+  subtotal        Float
+  discount        Float         @default(0)
+  tax             Float         @default(0)
+  shippingCost    Float         @default(0)
+  totalAmount     Float
+  
+  status          String        @default("PENDING")
+  paymentStatus   String        @default("UNPAID")
+  paymentMethod   String?
+  
+  // Event Information
+  eventType       String?
+  eventDate       DateTime?
+  eventDetails    String?       // JSON String
+  
+  // Delivery
+  deliveryMethod  String        @default("PICKUP")
+  deliveryAddress String?       // JSON String
+  deliveryDate    DateTime?
+  deliveryNotes   String?
+  
+  // Timestamps
+  confirmedAt     DateTime?
+  paidAt          DateTime?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+  cancelledAt     DateTime?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  user            User          @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+  
+  @@index([userId, status])
+  @@index([orderNumber])
+}
+
+model OrderItem {
+  id              String    @id @default(uuid())
+  orderId         String
+  goatId          String
+  
+  priceAtPurchase Float
+  weightAtPurchase Float
+  
+  order           Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  goat            Goat      @relation(fields: [goatId], references: [id])
+  
+  @@unique([orderId, goatId])
+}
+
+model SavedGoat {
+  id        String    @id @default(uuid())
+  userId    String
+  goatId    String
+  savedAt   DateTime  @default(now())
+  
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  goat      Goat      @relation(fields: [goatId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, goatId])
+}
+
+// Analytics
+model PricePrediction {
+  id              String    @id @default(uuid())
+  predictedDate   DateTime
+  
+  // Market predictions
+  avgPricePerKg   Float
+  demandLevel     String
+  seasonalFactor  Float
+  
+  // Event-based
+  daysToIdulAdha  Int?
+  daysToIdulFitri Int?
+  
+  confidence      Float
+  
+  createdAt       DateTime  @default(now())
+  
+  @@unique([predictedDate])
+  @@index([predictedDate])
+}
+
+model AIRecommendationLog {
+  id              String    @id @default(uuid())
+  sessionId       String
+  
+  // User Input
+  budget          Float
+  eventType       String
+  eventDate       DateTime?
+  preferredBreed  String?
+  minWeight       Float?
+  
+  // Output
+  recommendedGoats String   // JSON String
+  topMatch        Float
+  
+  // Tracking
+  clickedGoatId   String?
+  conversionGoatId String?
+  
+  createdAt       DateTime  @default(now())
+  
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+// Auth Models (Basic)
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  name            String?
+  password        String    // Hashed
+  role            String    @default("BUYER")
+  phone           String?
+  createdAt       DateTime  @default(now())
+  
+  orders          Order[]
+  savedGoats      SavedGoat[]
+}
