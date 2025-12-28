@@ -4,10 +4,10 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { MoreHorizontal, Filter, Plus } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
 
-// Define the shape of data coming from Server Action
 interface InventoryItem {
-    id: string; // Registration Code
+    id: string;
     name: string;
     breed: string;
     currentWeight: number;
@@ -24,20 +24,29 @@ interface Props {
 export default function InventoryTable({ data }: Props) {
     const [filter, setFilter] = useState('ALL');
 
+    const statusLabels: { [key: string]: string } = {
+        'EXCELLENT': 'Sangat Baik',
+        'GOOD': 'Baik',
+        'FAIR': 'Cukup',
+        'HEALTHY': 'Sehat',
+    };
+
     return (
         <Card className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h3 className="text-xl font-bold">Live Inventory</h3>
-                    <p className="text-sm text-text-muted">Tracking {data.length} total heads</p>
+                    <h3 className="text-xl font-bold">Inventaris Ternak</h3>
+                    <p className="text-sm text-text-muted">Total {data.length} ekor</p>
                 </div>
                 <div className="flex gap-2">
                     <Button variant="secondary" size="sm" className="gap-2">
                         <Filter className="w-4 h-4" /> Filter
                     </Button>
-                    <Button size="sm" className="gap-2">
-                        <Plus className="w-4 h-4" /> Add Goat
-                    </Button>
+                    <Link href="/dashboard/inventory">
+                        <Button size="sm" className="gap-2">
+                            <Plus className="w-4 h-4" /> Tambah
+                        </Button>
+                    </Link>
                 </div>
             </div>
 
@@ -45,12 +54,12 @@ export default function InventoryTable({ data }: Props) {
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="border-b border-white/10 text-text-muted text-sm uppercase tracking-wider">
-                            <th className="py-4 px-4 font-medium">ID / Name</th>
-                            <th className="py-4 px-4 font-medium">Breed</th>
-                            <th className="py-4 px-4 font-medium">Physicals</th>
-                            <th className="py-4 px-4 font-medium">Location</th>
+                            <th className="py-4 px-4 font-medium">ID / Nama</th>
+                            <th className="py-4 px-4 font-medium">Jenis</th>
+                            <th className="py-4 px-4 font-medium">Fisik</th>
+                            <th className="py-4 px-4 font-medium">Lokasi</th>
                             <th className="py-4 px-4 font-medium">Status</th>
-                            <th className="py-4 px-4 font-medium">Actions</th>
+                            <th className="py-4 px-4 font-medium">Aksi</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -75,13 +84,13 @@ export default function InventoryTable({ data }: Props) {
                                 <td className="py-4 px-4">
                                     <span className={`
                      inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border whitespace-nowrap
-                     ${goat.status === 'EXCELLENT' || goat.status === 'GOOD'
+                     ${goat.status === 'EXCELLENT' || goat.status === 'GOOD' || goat.status === 'HEALTHY'
                                             ? 'bg-farm-500/10 text-farm-400 border-farm-500/20'
                                             : 'bg-gold-500/10 text-gold-400 border-gold-500/20'
                                         }
                    `}>
-                                        <div className={`w-1.5 h-1.5 rounded-full ${goat.status === 'EXCELLENT' || goat.status === 'GOOD' ? 'bg-farm-500' : 'bg-gold-500'}`} />
-                                        {goat.status}
+                                        <div className={`w-1.5 h-1.5 rounded-full ${goat.status === 'EXCELLENT' || goat.status === 'GOOD' || goat.status === 'HEALTHY' ? 'bg-farm-500' : 'bg-gold-500'}`} />
+                                        {statusLabels[goat.status] || goat.status}
                                     </span>
                                 </td>
                                 <td className="py-4 px-4">

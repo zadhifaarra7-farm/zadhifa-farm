@@ -2,14 +2,14 @@
 
 import { Card } from '@/components/ui/Card';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 const data = [
     { month: 'Jan', weight: 45, projected: 45 },
     { month: 'Feb', weight: 52, projected: 50 },
     { month: 'Mar', weight: 61, projected: 58 },
     { month: 'Apr', weight: 68, projected: 65 },
-    { month: 'May', weight: 74, projected: 72 },
+    { month: 'Mei', weight: 74, projected: 72 },
     { month: 'Jun', weight: null, projected: 82 },
     { month: 'Jul', weight: null, projected: 90 },
 ];
@@ -19,14 +19,14 @@ export default function GoatMetrics() {
         <Card className="p-6 h-full">
             <div className="flex justify-between items-start mb-6">
                 <div>
-                    <h3 className="text-lg font-semibold mb-1">Growth Trajectory</h3>
-                    <p className="text-sm text-text-muted">Average Daily Gain (ADG)</p>
+                    <h3 className="text-lg font-semibold mb-1">Grafik Pertumbuhan</h3>
+                    <p className="text-sm text-text-muted">Rata-rata Pertambahan Harian (ADG)</p>
                 </div>
                 <div className="text-right">
                     <div className="text-2xl font-bold text-farm-400 flex items-center gap-1">
                         +18.5% <ArrowUpRight className="w-5 h-5" />
                     </div>
-                    <p className="text-xs text-text-muted">vs last month</p>
+                    <p className="text-xs text-text-muted">vs bulan lalu</p>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@ export default function GoatMetrics() {
                             strokeWidth={2}
                             strokeDasharray="5 5"
                             fill="url(#colorProjected)"
-                            name="Projected (AI)"
+                            name="Proyeksi (AI)"
                         />
                         <Area
                             type="monotone"
@@ -65,7 +65,7 @@ export default function GoatMetrics() {
                             stroke="#22c55e"
                             strokeWidth={3}
                             fill="url(#colorWeight)"
-                            name="Actual Weight"
+                            name="Berat Aktual"
                         />
                     </AreaChart>
                 </ResponsiveContainer>
@@ -74,11 +74,11 @@ export default function GoatMetrics() {
             <div className="flex gap-4 mt-4 text-sm text-text-muted justify-center">
                 <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-farm-500" />
-                    Actual Growth
+                    Pertumbuhan Aktual
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-gold-500 border border-dashed border-white/50" />
-                    AI Projection
+                    Proyeksi AI
                 </div>
             </div>
         </Card>

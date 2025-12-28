@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Sparkles, Calendar, TrendingUp, Tag } from 'lucide-react';
+import { Sparkles, Calendar, Tag } from 'lucide-react';
 
 export default function AdminAIPanel() {
     const [promo, setPromo] = useState<string | null>(null);
@@ -11,7 +11,6 @@ export default function AdminAIPanel() {
 
     const generatePromo = () => {
         setLoading(true);
-        // Simulate AI generation based on inventory surplus
         setTimeout(() => {
             setPromo("🎉 PROMO AGUSTUS: Diskon 10% untuk Domba Garut diatas 40kg! Stok melimpah di Kandang B.");
             setLoading(false);
@@ -25,18 +24,18 @@ export default function AdminAIPanel() {
                     <Sparkles className="w-5 h-5 text-gold-500" />
                 </div>
                 <div>
-                    <h3 className="font-bold text-lg">AI Assistant Task</h3>
-                    <p className="text-xs text-text-muted">Smart Marketing & Pricing</p>
+                    <h3 className="font-bold text-lg">Asisten AI</h3>
+                    <p className="text-xs text-text-muted">Marketing & Harga Otomatis</p>
                 </div>
             </div>
 
             {/* Monthly Promo Generator */}
             <div className="space-y-3 border-b border-white/5 pb-6">
                 <h4 className="text-sm font-semibold flex items-center gap-2 text-farm-300">
-                    <Calendar className="w-4 h-4" /> Monthly Promo
+                    <Calendar className="w-4 h-4" /> Promo Bulanan
                 </h4>
                 <p className="text-xs text-text-muted">
-                    Generate marketing copy based on current inventory surplus.
+                    Buat konten marketing berdasarkan stok yang tersedia.
                 </p>
 
                 {promo && (
@@ -51,14 +50,14 @@ export default function AdminAIPanel() {
                     onClick={generatePromo}
                     isLoading={loading}
                 >
-                    {loading ? 'Analyzing Inventory...' : 'Generate New Promo'}
+                    {loading ? 'Menganalisis Stok...' : 'Buat Promo Baru'}
                 </Button>
             </div>
 
-            {/* Recommended Pricing (Dorper/Garut) */}
+            {/* Recommended Pricing */}
             <div className="space-y-3">
                 <h4 className="text-sm font-semibold flex items-center gap-2 text-blue-300">
-                    <Tag className="w-4 h-4" /> AI Price Suggestions
+                    <Tag className="w-4 h-4" /> Rekomendasi Harga AI
                 </h4>
                 <div className="space-y-2">
                     <div className="flex justify-between items-center text-xs p-2 bg-white/5 rounded">
@@ -75,7 +74,7 @@ export default function AdminAIPanel() {
                     </div>
                 </div>
                 <Button variant="outline" className="w-full text-xs" size="sm">
-                    Update All Prices
+                    Perbarui Semua Harga
                 </Button>
             </div>
         </Card>

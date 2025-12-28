@@ -14,22 +14,28 @@ interface Order {
 }
 
 export default function RecentOrders({ orders }: { orders: Order[] }) {
+    const statusLabels: { [key: string]: string } = {
+        'PENDING': 'Menunggu',
+        'COMPLETED': 'Selesai',
+        'PAID': 'Dibayar',
+    };
+
     return (
         <Card className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2">
                     <ShoppingBag className="w-5 h-5 text-farm-500" />
-                    <h3 className="font-semibold text-lg">Recent Orders</h3>
+                    <h3 className="font-semibold text-lg">Pesanan Terbaru</h3>
                 </div>
                 <Link href="/dashboard/orders" className="text-xs text-farm-400 hover:text-farm-300 flex items-center">
-                    View All <ChevronRight className="w-3 h-3" />
+                    Lihat Semua <ChevronRight className="w-3 h-3" />
                 </Link>
             </div>
 
             <div className="space-y-4">
                 {orders.length === 0 ? (
                     <div className="text-center py-8 text-text-muted text-sm">
-                        No orders yet.
+                        Belum ada pesanan.
                     </div>
                 ) : (
                     orders.map((order, i) => (
@@ -49,7 +55,7 @@ export default function RecentOrders({ orders }: { orders: Order[] }) {
                                     ? 'border-yellow-500/30 text-yellow-500 bg-yellow-500/5'
                                     : 'border-farm-500/30 text-farm-500 bg-farm-500/5'
                                     }`}>
-                                    {order.status}
+                                    {statusLabels[order.status] || order.status}
                                 </span>
                             </div>
                         </div>
