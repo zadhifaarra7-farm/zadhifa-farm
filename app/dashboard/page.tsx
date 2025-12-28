@@ -3,10 +3,11 @@ import InventoryTable from '@/components/dashboard/InventoryTable';
 import PredictivePricing from '@/components/dashboard/PredictivePricing';
 import AdminAIPanel from '@/components/dashboard/AdminAIPanel';
 import RecentOrders from '@/components/dashboard/RecentOrders';
+import LogoutButton from '@/components/dashboard/LogoutButton';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { ShieldCheck, Calendar, Bell, Users, Dna, Package } from 'lucide-react';
+import { Bell, Users, Dna, Package } from 'lucide-react';
 import { getDashboardStats, getRecentAlerts, getRecentOrders } from '@/lib/actions/dashboard';
 import { getInventory } from '@/lib/actions/inventory';
 
@@ -29,16 +30,12 @@ export default async function Dashboard() {
                     <p className="text-sm text-text-muted">Selamat datang, Admin</p>
                 </div>
                 <div className="flex gap-4">
-                    <Button variant="ghost" className="p-2 rounded-full relative">
-                        <Bell className="w-5 h-5" />
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                    </Button>
-                    <Button variant="secondary" className="gap-2">
-                        <Calendar className="w-4 h-4" /> Jadwal
-                    </Button>
-                    <Button className="gap-2">
-                        <ShieldCheck className="w-4 h-4" /> Status Sistem
-                    </Button>
+                    <Link href="/">
+                        <Button variant="secondary" className="gap-2">
+                            Lihat Website
+                        </Button>
+                    </Link>
+                    <LogoutButton />
                 </div>
             </header>
 
