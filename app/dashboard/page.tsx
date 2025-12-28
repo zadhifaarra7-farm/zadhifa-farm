@@ -78,7 +78,7 @@ export default async function Dashboard() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold mb-1">Kelola Stok</h3>
-                                    <p className="text-sm text-text-muted">Tambah / Edit Kambing</p>
+                                    <p className="text-sm text-text-muted">Tambah / Edit Domba</p>
                                 </div>
                             </Link>
                         </Card>

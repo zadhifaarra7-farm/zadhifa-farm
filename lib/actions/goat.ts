@@ -39,7 +39,7 @@ export async function addGoat(formData: FormData) {
         return { success: true };
     } catch (error) {
         console.error('Error adding goat:', error);
-        return { success: false, error: 'Gagal menambah data kambing' };
+        return { success: false, error: 'Gagal menambah data domba' };
     }
 }
 
@@ -69,7 +69,7 @@ export async function updateGoat(id: string, formData: FormData) {
         return { success: true };
     } catch (error) {
         console.error('Error updating goat:', error);
-        return { success: false, error: 'Gagal update data kambing' };
+        return { success: false, error: 'Gagal update data domba' };
     }
 }
 
@@ -83,7 +83,7 @@ export async function deleteGoat(id: string) {
         return { success: true };
     } catch (error) {
         console.error('Error deleting goat:', error);
-        return { success: false, error: 'Gagal hapus data kambing' };
+        return { success: false, error: 'Gagal hapus data domba' };
     }
 }
 

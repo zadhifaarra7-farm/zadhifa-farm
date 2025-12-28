@@ -75,7 +75,7 @@ export default function HeroSection() {
                         className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
                     >
                         <Button size="lg" className="w-full sm:w-auto group">
-                            Temukan Kambing
+                            Temukan Domba
                             <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </motion.div>

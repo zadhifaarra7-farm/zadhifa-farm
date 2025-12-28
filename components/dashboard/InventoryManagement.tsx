@@ -50,7 +50,7 @@ export default function InventoryManagement() {
     };
 
     const handleDelete = async (id: string) => {
-        if (confirm('Yakin hapus kambing ini?')) {
+        if (confirm('Yakin hapus domba ini?')) {
             await deleteGoat(id);
             loadGoats();
         }
@@ -69,7 +69,7 @@ export default function InventoryManagement() {
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Kelola Inventaris</h2>
                 <Button onClick={() => { setShowForm(true); setEditingGoat(null); }} className="gap-2">
-                    <Plus className="w-4 h-4" /> Tambah Kambing
+                    <Plus className="w-4 h-4" /> Tambah Domba
                 </Button>
             </div>
 
@@ -80,7 +80,7 @@ export default function InventoryManagement() {
                         <button onClick={() => setShowForm(false)} className="absolute top-4 right-4 text-text-muted hover:text-white">
                             <X className="w-5 h-5" />
                         </button>
-                        <h3 className="text-xl font-bold mb-6">{editingGoat ? 'Edit Kambing' : 'Tambah Kambing Baru'}</h3>
+                        <h3 className="text-xl font-bold mb-6">{editingGoat ? 'Edit Domba' : 'Tambah Domba Baru'}</h3>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
@@ -202,7 +202,7 @@ export default function InventoryManagement() {
                             {goats.length === 0 && (
                                 <tr>
                                     <td colSpan={7} className="p-8 text-center text-text-muted">
-                                        Belum ada data kambing. Klik "Tambah Kambing" untuk mulai.
+                                        Belum ada data domba. Klik "Tambah Domba" untuk mulai.
                                     </td>
                                 </tr>
                             )}

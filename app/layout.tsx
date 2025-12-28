@@ -2,20 +2,20 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-    title: 'Zadhifa Farm | Premium Goat Farming Platform',
-    description: 'Platform peternakan kambing premium dengan teknologi AI. Temukan kambing berkualitas untuk Qurban, Aqiqah, dan breeding dengan jaminan kesehatan dan tracking real-time.',
-    keywords: ['kambing qurban', 'kambing aqiqah', 'peternakan kambing', 'beli kambing online', 'kambing premium'],
+    title: 'Zadhifa Farm | Platform Peternakan Domba Premium',
+    description: 'Platform peternakan domba premium dengan teknologi AI. Temukan domba berkualitas untuk Qurban, Aqiqah, dan breeding dengan jaminan kesehatan dan tracking real-time.',
+    keywords: ['domba qurban', 'domba aqiqah', 'peternakan domba', 'beli domba online', 'domba premium', 'dorper', 'garut'],
     authors: [{ name: 'Zadhifa Farm' }],
     openGraph: {
-        title: 'Zadhifa Farm | Premium Goat Farming Platform',
-        description: 'Platform peternakan kambing premium dengan teknologi AI. Temukan kambing ideal Anda.',
+        title: 'Zadhifa Farm | Platform Peternakan Domba Premium',
+        description: 'Platform peternakan domba premium dengan teknologi AI. Temukan domba ideal Anda.',
         type: 'website',
         locale: 'id_ID',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Zadhifa Farm',
-        description: 'Premium Goat Farming Platform dengan AI',
+        description: 'Platform Peternakan Domba Premium dengan AI',
     },
 }
 

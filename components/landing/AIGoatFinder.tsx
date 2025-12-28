@@ -159,7 +159,7 @@ export default function AIGoatFinder() {
                                                 className="w-full mt-4 btn-gold"
                                                 size="lg"
                                             >
-                                                {loading ? 'Menganalisis...' : 'Cari Kambing Ideal'}
+                                                {loading ? 'Menganalisis...' : 'Cari Domba Ideal'}
                                             </Button>
                                         </div>
                                     </div>
@@ -221,7 +221,7 @@ export default function AIGoatFinder() {
 
                                     {results.length === 0 && (
                                         <div className="col-span-3 text-center py-12 text-text-muted">
-                                            Tidak ada kambing yang cocok. Coba sesuaikan budget Anda.
+                                            Tidak ada domba yang cocok. Coba sesuaikan budget Anda.
                                         </div>
                                     )}
                                 </div>

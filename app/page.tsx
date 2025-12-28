@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Zadhifa Farm | Ternak Premium Masa Depan',
-    description: 'Platform peternakan kambing berbasis AI yang menggabungkan tradisi dengan teknologi.',
+    description: 'Platform peternakan domba berbasis AI yang menggabungkan tradisi dengan teknologi.',
 };
 
 export default function Home() {

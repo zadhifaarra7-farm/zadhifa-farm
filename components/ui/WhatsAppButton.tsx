@@ -6,7 +6,7 @@ export default function WhatsAppButton() {
     const phoneNumber = '6287722076763'; // 087722076763 with country code
     const defaultMessage = `Halo Zadhifa Farm! 🐐
 
-Saya tertarik untuk memesan kambing dari website Anda.
+Saya tertarik untuk memesan domba dari website Anda.
 
 Mohon info lebih lanjut mengenai:
 - Ketersediaan stok

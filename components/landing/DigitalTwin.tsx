@@ -76,7 +76,7 @@ export default function DigitalTwin() {
                     {/* Content */}
                     <div className="order-1 md:order-2 space-y-8">
                         <h2 className="text-4xl md:text-5xl font-bold">
-                            Setiap Kambing Punya <br />
+                            Setiap Domba Punya <br />
                             <span className="text-gradient-gold">Identitas Digital</span>
                         </h2>
 
