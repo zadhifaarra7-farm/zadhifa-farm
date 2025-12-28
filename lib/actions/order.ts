@@ -45,7 +45,26 @@ export async function createWhatsAppOrder(registrationCode: string, buyerName: s
     });
 
     const link = `https://zadhifa-farm.vercel.app/pay/${order.orderNumber}`;
-    return { success: true, phone: '6281234567890', text: `Halo Zadhifa Farm, saya ingin beli ${goat.breed} (${goat.registrationCode}). Order: ${order.orderNumber}. Link Payment: ${link}` };
+    const orderMessage = `🐐 *ORDER ZADHIFA FARM*
+
+📋 *Detail Pesanan:*
+- Jenis: ${goat.breed}
+- Kode: ${goat.registrationCode}
+- Berat: ${goat.currentWeight} kg
+- Harga: Rp ${Number(goat.dynamicPrice || goat.basePrice).toLocaleString('id-ID')}
+
+👤 *Data Pembeli:*
+- Nama: ${buyerName}
+- No HP: ${whatsapp}
+
+🏦 *Transfer ke:*
+Bank BCA: 1390404430
+a.n Mahardhika Fawzan Dwipayana
+
+Order ID: ${order.orderNumber}
+
+Mohon konfirmasi ketersediaan. Terima kasih! 🙏`;
+    return { success: true, phone: '6287722076763', text: orderMessage };
 }
 
 export async function exportOrdersToCSV() {
