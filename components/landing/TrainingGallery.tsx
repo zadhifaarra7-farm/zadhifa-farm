@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { GraduationCap, Users, Award } from 'lucide-react';
+import { GraduationCap, Users, Award, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -11,6 +11,11 @@ const trainingImages = [
     { src: '/training-3.jpg', caption: 'Penyerahan Penghargaan' },
     { src: '/training-4.jpg', caption: 'Tim Inti Zadhifa Farm' },
     { src: '/training-5.jpg', caption: 'Kunjungan Pejabat Daerah' },
+    { src: '/training-6.jpg', caption: 'Foto Bersama Peserta Pelatihan' },
+    { src: '/training-7.jpg', caption: 'Semangat Tim Pelatihan' },
+    { src: '/training-8.jpg', caption: 'Pelatihan Pengembangan Kelompok Ternak' },
+    { src: '/training-9.jpg', caption: 'Study Banding Ternak Domba' },
+    { src: '/training-10.jpg', caption: 'Sesi Materi Pelatihan' },
 ];
 
 export default function TrainingGallery() {
@@ -37,9 +42,9 @@ export default function TrainingGallery() {
                     </p>
                 </motion.div>
 
-                {/* Gallery Grid */}
+                {/* Gallery Grid - 2 rows */}
                 <motion.div
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
+                    className="grid grid-cols-2 md:grid-cols-5 gap-4"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -59,8 +64,8 @@ export default function TrainingGallery() {
                                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                <p className="text-sm font-medium text-white">{image.caption}</p>
+                            <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                <p className="text-xs font-medium text-white line-clamp-2">{image.caption}</p>
                             </div>
                         </motion.div>
                     ))}
@@ -68,23 +73,28 @@ export default function TrainingGallery() {
 
                 {/* Stats */}
                 <motion.div
-                    className="grid grid-cols-3 gap-6 mt-12 max-w-2xl mx-auto"
+                    className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 max-w-3xl mx-auto"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 }}
                 >
-                    <div className="text-center">
+                    <div className="text-center p-4 rounded-xl bg-surface-elevated/30 border border-white/5">
                         <Users className="w-8 h-8 text-farm-400 mx-auto mb-2" />
                         <div className="text-2xl font-bold">10+</div>
                         <div className="text-xs text-text-muted">Mitra Peternakan</div>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center p-4 rounded-xl bg-surface-elevated/30 border border-white/5">
                         <GraduationCap className="w-8 h-8 text-gold-400 mx-auto mb-2" />
                         <div className="text-2xl font-bold">5+</div>
                         <div className="text-xs text-text-muted">Pelatihan</div>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center p-4 rounded-xl bg-surface-elevated/30 border border-white/5">
+                        <MapPin className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+                        <div className="text-2xl font-bold">3+</div>
+                        <div className="text-xs text-text-muted">Kab/Kota</div>
+                    </div>
+                    <div className="text-center p-4 rounded-xl bg-surface-elevated/30 border border-white/5">
                         <Award className="w-8 h-8 text-purple-400 mx-auto mb-2" />
                         <div className="text-2xl font-bold">2+</div>
                         <div className="text-xs text-text-muted">Penghargaan</div>
@@ -104,6 +114,7 @@ export default function TrainingGallery() {
                         className="relative max-w-4xl max-h-[90vh] w-full"
                         initial={{ scale: 0.9 }}
                         animate={{ scale: 1 }}
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <Image
                             src={trainingImages[selectedImage].src}
@@ -120,6 +131,26 @@ export default function TrainingGallery() {
                             onClick={() => setSelectedImage(null)}
                         >
                             ✕
+                        </button>
+
+                        {/* Navigation buttons */}
+                        <button
+                            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedImage(selectedImage === 0 ? trainingImages.length - 1 : selectedImage - 1);
+                            }}
+                        >
+                            ←
+                        </button>
+                        <button
+                            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedImage(selectedImage === trainingImages.length - 1 ? 0 : selectedImage + 1);
+                            }}
+                        >
+                            →
                         </button>
                     </motion.div>
                 </motion.div>
