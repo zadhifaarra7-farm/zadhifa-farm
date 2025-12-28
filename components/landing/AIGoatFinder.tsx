@@ -93,21 +93,33 @@ export default function AIGoatFinder() {
                                                 <label className="block text-sm font-medium text-farm-300 mb-3 flex items-center gap-2">
                                                     <Calculator className="w-4 h-4" /> Budget Anda
                                                 </label>
-                                                <div className="text-2xl font-bold text-white mb-4 font-mono">
-                                                    {formatRupiah(budget)}
+                                                <div className="flex items-center gap-3 mb-4">
+                                                    <span className="text-lg text-text-muted">Rp</span>
+                                                    <input
+                                                        type="text"
+                                                        inputMode="numeric"
+                                                        value={budget.toLocaleString('id-ID')}
+                                                        onChange={(e) => {
+                                                            const value = e.target.value.replace(/\D/g, '');
+                                                            const num = parseInt(value) || 0;
+                                                            setBudget(Math.min(num, 100000000));
+                                                        }}
+                                                        className="input text-2xl font-bold font-mono flex-1 text-center"
+                                                        placeholder="5.000.000"
+                                                    />
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    min="2000000"
-                                                    max="25000000"
+                                                    min="1000000"
+                                                    max="50000000"
                                                     step="500000"
                                                     value={budget}
                                                     onChange={(e) => setBudget(Number(e.target.value))}
                                                     className="w-full accent-farm-500"
                                                 />
                                                 <div className="flex justify-between text-xs text-text-muted mt-2">
-                                                    <span>Rp 2jt</span>
-                                                    <span>Rp 25jt+</span>
+                                                    <span>Rp 1jt</span>
+                                                    <span>Rp 50jt+</span>
                                                 </div>
                                             </div>
 
