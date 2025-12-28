@@ -18,7 +18,7 @@ export default function LoginPage() {
         const formData = new FormData(e.currentTarget);
         const password = formData.get('password');
 
-        if (password === 'admin123') {
+        if (password === 'zadhifa123') {
             document.cookie = 'admin_session=true; path=/';
             router.push('/dashboard');
         } else {
