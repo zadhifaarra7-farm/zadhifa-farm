@@ -28,7 +28,6 @@ export default function AIGoatFinder() {
                 eventDate: date ? new Date(date) : undefined
             });
 
-            // Simulate "Thinking" time
             setTimeout(() => {
                 setResults(matches);
                 setLoading(false);
@@ -62,7 +61,7 @@ export default function AIGoatFinder() {
                         viewport={{ once: true }}
                         className="text-4xl md:text-5xl font-bold mb-4"
                     >
-                        AI Personal <span className="text-gradient">Shopper</span>
+                        Asisten <span className="text-gradient">Cerdas AI</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -71,8 +70,8 @@ export default function AIGoatFinder() {
                         transition={{ delay: 0.1 }}
                         className="text-text-muted max-w-2xl mx-auto"
                     >
-                        Let our intelligent algorithm find the perfect livestock matching your budget,
-                        purpose, and quality preferences in seconds. Now supporting Hotel & Resto supply.
+                        Biarkan algoritma cerdas kami menemukan ternak yang sempurna sesuai budget,
+                        tujuan, dan preferensi kualitas Anda dalam hitungan detik.
                     </motion.p>
                 </div>
 
@@ -92,7 +91,7 @@ export default function AIGoatFinder() {
                                         <div className="space-y-8">
                                             <div>
                                                 <label className="block text-sm font-medium text-farm-300 mb-3 flex items-center gap-2">
-                                                    <Calculator className="w-4 h-4" /> Your Budget
+                                                    <Calculator className="w-4 h-4" /> Budget Anda
                                                 </label>
                                                 <div className="text-2xl font-bold text-white mb-4 font-mono">
                                                     {formatRupiah(budget)}
@@ -114,7 +113,7 @@ export default function AIGoatFinder() {
 
                                             <div>
                                                 <label className="block text-sm font-medium text-farm-300 mb-3 flex items-center gap-2">
-                                                    <Calendar className="w-4 h-4" /> Event Date
+                                                    <Calendar className="w-4 h-4" /> Tanggal Acara
                                                 </label>
                                                 <input
                                                     type="date"
@@ -127,7 +126,7 @@ export default function AIGoatFinder() {
 
                                         {/* Right Col: Purpose Selection */}
                                         <div className="space-y-6">
-                                            <label className="block text-sm font-medium text-farm-300 mb-2">Purpose</label>
+                                            <label className="block text-sm font-medium text-farm-300 mb-2">Tujuan</label>
                                             <div className="grid grid-cols-2 gap-4">
                                                 {(['QURBAN', 'AQIQAH', 'BREEDING', 'HORECA'] as Purpose[]).map((p) => (
                                                     <div
@@ -142,7 +141,7 @@ export default function AIGoatFinder() {
                             `}
                                                     >
                                                         <span className="font-medium tracking-wide text-xs md:text-sm">
-                                                            {p === 'HORECA' ? 'HOTEL/RESTO' : p}
+                                                            {p === 'HORECA' ? 'HOTEL/RESTO' : p === 'BREEDING' ? 'TERNAK' : p}
                                                         </span>
                                                         <div className={`
                               w-4 h-4 rounded-full border flex items-center justify-center transition-colors
@@ -160,7 +159,7 @@ export default function AIGoatFinder() {
                                                 className="w-full mt-4 btn-gold"
                                                 size="lg"
                                             >
-                                                {loading ? 'Analyzing Inventory...' : 'Find My Perfect Match'}
+                                                {loading ? 'Menganalisis...' : 'Cari Kambing Ideal'}
                                             </Button>
                                         </div>
                                     </div>
@@ -174,9 +173,9 @@ export default function AIGoatFinder() {
                                 className="space-y-8"
                             >
                                 <div className="flex justify-between items-center mb-8">
-                                    <h3 className="text-2xl font-semibold">Top Recommendations</h3>
+                                    <h3 className="text-2xl font-semibold">Rekomendasi Terbaik</h3>
                                     <Button variant="outline" onClick={() => setStep('form')} size="sm">
-                                        Modify Search
+                                        Ubah Pencarian
                                     </Button>
                                 </div>
 
@@ -192,19 +191,13 @@ export default function AIGoatFinder() {
                                                 {/* Match Badge */}
                                                 <div className="absolute top-4 right-4 z-10 bg-black/60 backdrop-blur-md border border-farm-500/50 px-3 py-1 rounded-full flex items-center gap-1">
                                                     <Star className="w-3 h-3 text-gold-400 fill-current" />
-                                                    <span className="text-sm font-bold text-farm-300">{goat.match}% Match</span>
+                                                    <span className="text-sm font-bold text-farm-300">{goat.match}% Cocok</span>
                                                 </div>
 
                                                 {/* Image Placeholder */}
                                                 <div className="h-48 bg-surface-elevated relative overflow-hidden shrink-0">
                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
                                                     <div className="w-full h-full bg-farm-900/20 group-hover:scale-105 transition-transform duration-700" />
-                                                    {goat.image && (
-                                                        <div className="absolute inset-0 flex items-center justify-center text-farm-700 text-xs text-center p-4">
-                                                            {/* Actual image would go here */}
-                                                            [Image: {goat.image}]
-                                                        </div>
-                                                    )}
                                                 </div>
 
                                                 <div className="p-6 flex flex-col flex-1">
@@ -216,10 +209,10 @@ export default function AIGoatFinder() {
 
                                                     <div className="flex items-end justify-between mt-auto">
                                                         <div>
-                                                            <p className="text-xs text-text-muted mb-1">Estimated Price</p>
+                                                            <p className="text-xs text-text-muted mb-1">Harga Estimasi</p>
                                                             <p className="text-lg font-bold text-gold-400">{formatRupiah(goat.price)}</p>
                                                         </div>
-                                                        <Button size="sm" className="rounded-lg">View</Button>
+                                                        <Button size="sm" className="rounded-lg">Lihat</Button>
                                                     </div>
                                                 </div>
                                             </Card>
@@ -228,7 +221,7 @@ export default function AIGoatFinder() {
 
                                     {results.length === 0 && (
                                         <div className="col-span-3 text-center py-12 text-text-muted">
-                                            No matching goats found. Try adjusting your budget.
+                                            Tidak ada kambing yang cocok. Coba sesuaikan budget Anda.
                                         </div>
                                     )}
                                 </div>

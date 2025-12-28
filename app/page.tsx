@@ -5,8 +5,8 @@ import DigitalTwin from '@/components/landing/DigitalTwin';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Zadhifa Farm | Premium Livestock of The Future',
-    description: 'AI-Powered goat farming platform bridging tradition with technology.',
+    title: 'Zadhifa Farm | Ternak Premium Masa Depan',
+    description: 'Platform peternakan kambing berbasis AI yang menggabungkan tradisi dengan teknologi.',
 };
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
 
             {/* Footer */}
             <footer className="py-12 border-t border-white/5 text-center text-text-muted">
-                <p>© 2024 Zadhifa Farm. Premium Livestock of The Future.</p>
+                <p>© 2024 Zadhifa Farm. Ternak Premium Masa Depan.</p>
             </footer>
         </main>
     );

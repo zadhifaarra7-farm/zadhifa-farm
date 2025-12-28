@@ -43,26 +43,26 @@ export default function LiveTracking() {
                     <div className="space-y-8">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-farm-500/10 border border-farm-500/20 text-farm-300 text-sm font-medium">
                             <Wifi className="w-4 h-4 animate-pulse" />
-                            Live IoT System
+                            Sistem IoT Langsung
                         </div>
 
                         <h2 className="text-4xl md:text-5xl font-bold">
-                            Real-time <span className="text-gradient">Farm Intelligence</span>
+                            Kecerdasan <span className="text-gradient">Peternakan</span>
                         </h2>
 
                         <p className="text-text-muted text-lg leading-relaxed">
-                            We monitor every heartbeat of our farm. Our advanced IoT network tracks temperature,
-                            humidity, and air quality 24/7 to ensure optimal growth conditions for your livestock.
+                            Kami memantau setiap kondisi peternakan. Jaringan IoT canggih kami melacak suhu,
+                            kelembaban, dan kualitas udara 24/7 untuk memastikan kondisi pertumbuhan optimal.
                         </p>
 
                         <div className="grid grid-cols-2 gap-6 pt-4">
                             <div className="p-4 rounded-xl bg-surface border border-white/5">
                                 <div className="text-3xl font-bold text-farm-400 mb-1">24/7</div>
-                                <div className="text-sm text-text-muted">Continuous Monitoring</div>
+                                <div className="text-sm text-text-muted">Pemantauan Terus-Menerus</div>
                             </div>
                             <div className="p-4 rounded-xl bg-surface border border-white/5">
-                                <div className="text-3xl font-bold text-gold-400 mb-1">0.1s</div>
-                                <div className="text-sm text-text-muted">Data Latency</div>
+                                <div className="text-3xl font-bold text-gold-400 mb-1">0.1 detik</div>
+                                <div className="text-sm text-text-muted">Latensi Data</div>
                             </div>
                         </div>
                     </div>
@@ -76,11 +76,11 @@ export default function LiveTracking() {
                             <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
                                 <h3 className="text-xl font-semibold flex items-center gap-2">
                                     <Activity className="text-farm-500" />
-                                    Pen A1 - Etawa Prime
+                                    Kandang A1 - Etawa Premium
                                 </h3>
                                 <div className={`px-3 py-1 rounded text-xs font-bold ${data.status === 'OPTIMAL' ? 'bg-farm-500/20 text-farm-400' : 'bg-red-500/20 text-red-400'
                                     }`}>
-                                    {data.status}
+                                    {data.status === 'OPTIMAL' ? 'OPTIMAL' : 'PERINGATAN'}
                                 </div>
                             </div>
 
@@ -89,7 +89,7 @@ export default function LiveTracking() {
                                 <div className="aspect-square rounded-2xl bg-surface/50 p-4 flex flex-col justify-between group hover:bg-surface transition-colors">
                                     <div className="flex justify-between items-start">
                                         <Thermometer className="text-farm-400 w-6 h-6" />
-                                        <span className="text-xs text-text-muted">Temp</span>
+                                        <span className="text-xs text-text-muted">Suhu</span>
                                     </div>
                                     <div>
                                         <div className="text-3xl font-bold text-white mb-1 group-hover:scale-105 transition-transform">
@@ -108,7 +108,7 @@ export default function LiveTracking() {
                                 <div className="aspect-square rounded-2xl bg-surface/50 p-4 flex flex-col justify-between group hover:bg-surface transition-colors">
                                     <div className="flex justify-between items-start">
                                         <Droplets className="text-blue-400 w-6 h-6" />
-                                        <span className="text-xs text-text-muted">Humid</span>
+                                        <span className="text-xs text-text-muted">Kelembaban</span>
                                     </div>
                                     <div>
                                         <div className="text-3xl font-bold text-white mb-1 group-hover:scale-105 transition-transform">
@@ -130,7 +130,7 @@ export default function LiveTracking() {
                                             <Wind className="text-gold-400 w-6 h-6" />
                                         </div>
                                         <div>
-                                            <div className="text-sm text-text-muted">Air Quality (Ammonia)</div>
+                                            <div className="text-sm text-text-muted">Kualitas Udara (Amonia)</div>
                                             <div className="text-xl font-bold">{data.ammonia} ppm</div>
                                         </div>
                                     </div>

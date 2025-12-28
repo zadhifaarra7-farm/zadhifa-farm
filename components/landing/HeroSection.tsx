@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Button } from '@/components/ui/Button';
-import { ArrowRight, Leaf, Play } from 'lucide-react';
+import { ArrowRight, Leaf } from 'lucide-react';
 
 export default function HeroSection() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -20,14 +20,7 @@ export default function HeroSection() {
             >
                 <div className="absolute inset-0 bg-gradient-to-b from-farm-950/80 via-farm-950/60 to-farm-950 z-10" />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0a0f0d_100%)] z-10" />
-
-                {/* Placeholder for Video - using animated gradient for now */}
                 <div className="w-full h-full bg-hero-pattern animate-pulse-slow opacity-60" />
-
-                {/* Optional: Actual Video Tag (commented out until asset provided) */}
-                {/* <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-          <source src="/videos/hero-farm.mp4" type="video/mp4" />
-        </video> */}
             </motion.div>
 
             {/* Content */}
@@ -46,7 +39,7 @@ export default function HeroSection() {
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light border border-farm-500/30 text-farm-300 mb-6"
                     >
                         <Leaf className="w-4 h-4 text-farm-400" />
-                        <span className="text-sm font-medium tracking-wide">Premium Livestock Platform</span>
+                        <span className="text-sm font-medium tracking-wide">Peternakan Premium Indonesia</span>
                     </motion.div>
 
                     {/* Logo */}
@@ -65,13 +58,13 @@ export default function HeroSection() {
 
                     {/* Headline */}
                     <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
-                        Premium Livestock <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-farm-400 to-gold-400">of The Future</span>
+                        Ternak Premium <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-farm-400 to-gold-400">Masa Depan</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto leading-relaxed">
-                        Experience the fusion of traditional care and advanced technology.
-                        From AI-driven selections to real-time farm tracking, discover livestock quality without compromise.
+                        Perpaduan perawatan tradisional dan teknologi canggih.
+                        Dari pemilihan berbasis AI hingga pelacakan real-time, temukan kualitas ternak terbaik.
                     </p>
 
                     {/* CTA Buttons */}
@@ -85,13 +78,6 @@ export default function HeroSection() {
                             Temukan Kambing
                             <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </Button>
-
-                        <Button variant="secondary" size="lg" className="w-full sm:w-auto gap-2 group">
-                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-farm-500/20 transition-colors">
-                                <Play className="w-4 h-4 fill-current" />
-                            </div>
-                            Lihat Live Farm
-                        </Button>
                     </motion.div>
 
                     <motion.div
@@ -101,7 +87,7 @@ export default function HeroSection() {
                         className="pt-4"
                     >
                         <a href="/dashboard" className="text-sm text-farm-500 hover:text-farm-400 underline decoration-farm-500/30 underline-offset-4">
-                            Farmers / Admin Access
+                            Akses Admin / Peternak
                         </a>
                     </motion.div>
 
@@ -113,10 +99,10 @@ export default function HeroSection() {
                         className="pt-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/5 mt-16"
                     >
                         {[
-                            { label: 'Total Livestock', value: '1,200+' },
-                            { label: 'Happy Customers', value: '850+' },
-                            { label: 'Premium Breeds', value: '8' },
-                            { label: 'Success Rate', value: '99%' },
+                            { label: 'Total Ternak', value: '1,200+' },
+                            { label: 'Pelanggan Puas', value: '850+' },
+                            { label: 'Jenis Ras', value: '8' },
+                            { label: 'Tingkat Sukses', value: '99%' },
                         ].map((stat, index) => (
                             <div key={index} className="text-center">
                                 <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
@@ -134,7 +120,7 @@ export default function HeroSection() {
                 transition={{ delay: 1, duration: 1 }}
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
             >
-                <span className="text-xs text-farm-500/60 uppercase tracking-widest">Scroll to Explore</span>
+                <span className="text-xs text-farm-500/60 uppercase tracking-widest">Gulir untuk Jelajahi</span>
                 <div className="w-[1px] h-12 bg-gradient-to-b from-farm-500/0 via-farm-500/50 to-farm-500/0" />
             </motion.div>
         </div>

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/Card';
-import { QrCode, Smartphone, ChevronRight } from 'lucide-react';
+import { QrCode, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function DigitalTwin() {
@@ -34,26 +34,26 @@ export default function DigitalTwin() {
                                             <div className="w-full h-full border-2 border-dashed border-black/20 pattern-dots" />
                                         </div>
                                         <div>
-                                            <div className="text-xs text-text-muted uppercase tracking-wider">Scanned ID</div>
+                                            <div className="text-xs text-text-muted uppercase tracking-wider">ID Ternak</div>
                                             <div className="font-bold text-lg">ZF-2024-882</div>
                                         </div>
                                     </div>
 
                                     <div className="space-y-4">
                                         <div className="bg-surface-elevated p-4 rounded-xl border border-white/5">
-                                            <div className="text-xs text-text-muted mb-1">Breed</div>
+                                            <div className="text-xs text-text-muted mb-1">Jenis/Ras</div>
                                             <div className="font-semibold">Etawa Super Grade A</div>
                                         </div>
 
                                         <div className="bg-surface-elevated p-4 rounded-xl border border-white/5">
-                                            <div className="text-xs text-text-muted mb-1">Health Status</div>
+                                            <div className="text-xs text-text-muted mb-1">Status Kesehatan</div>
                                             <div className="font-semibold text-farm-400 flex items-center gap-2">
-                                                ● Excellent Condition
+                                                ● Kondisi Sangat Baik
                                             </div>
                                         </div>
 
                                         <div className="bg-surface-elevated p-4 rounded-xl border border-white/5">
-                                            <div className="text-xs text-text-muted mb-1">Weight History</div>
+                                            <div className="text-xs text-text-muted mb-1">Riwayat Berat</div>
                                             <div className="h-24 flex items-end justify-between gap-1 pt-4">
                                                 {[40, 55, 60, 75, 82].map((h, i) => (
                                                     <div key={i} style={{ height: `${h}%` }} className="w-full bg-farm-500/50 rounded-t-sm" />
@@ -66,7 +66,7 @@ export default function DigitalTwin() {
                                 {/* Buy Button */}
                                 <div className="p-6 bg-surface-elevated border-t border-white/5">
                                     <div className="w-full py-3 bg-white text-black font-bold text-center rounded-xl">
-                                        Adopt Now
+                                        Pesan Sekarang
                                     </div>
                                 </div>
                             </Card>
@@ -76,22 +76,22 @@ export default function DigitalTwin() {
                     {/* Content */}
                     <div className="order-1 md:order-2 space-y-8">
                         <h2 className="text-4xl md:text-5xl font-bold">
-                            Every Goat Has a <br />
-                            <span className="text-gradient-gold">Digital Twin</span>
+                            Setiap Kambing Punya <br />
+                            <span className="text-gradient-gold">Identitas Digital</span>
                         </h2>
 
                         <p className="text-text-muted text-lg leading-relaxed">
-                            Transparency found nowhere else. Scan the QR code on any livestock to instantly access
-                            its complete digital ledger: lineage, vaccination history, daily weight logs, and more.
-                            Immutable proof of quality.
+                            Transparansi yang tidak ada di tempat lain. Scan kode QR pada setiap ternak untuk mengakses
+                            catatan digital lengkap: silsilah, riwayat vaksinasi, log berat harian, dan lainnya.
+                            Bukti kualitas yang terjamin.
                         </p>
 
                         <ul className="space-y-4">
                             {[
-                                'Full Pedigree & Genetic Lineage',
-                                'Vaccination & Medical Records',
-                                'Growth & Nutrition Analytics',
-                                'Ethical Sourcing Verification'
+                                'Silsilah & Genetik Lengkap',
+                                'Riwayat Vaksinasi & Medis',
+                                'Analisis Pertumbuhan & Nutrisi',
+                                'Verifikasi Sumber Etis'
                             ].map((item, i) => (
                                 <li key={i} className="flex items-center gap-3">
                                     <div className="w-6 h-6 rounded-full bg-farm-500/20 flex items-center justify-center">
@@ -104,7 +104,7 @@ export default function DigitalTwin() {
 
                         <Button className="gap-2 group">
                             <QrCode className="w-4 h-4" />
-                            Try Demo Scan
+                            Coba Scan Demo
                             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Button>
                     </div>
