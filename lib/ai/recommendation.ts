@@ -23,6 +23,7 @@ const MOCK_GOATS = [
     { id: '2', name: 'Boer Cross', price: 5200000, purpose: ['MEAT', 'AQIQAH'], weight: 65, health: 'GOOD' },
     { id: '3', name: 'Jawarandu', price: 3800000, purpose: ['QURBAN'], weight: 45, health: 'GOOD' },
     { id: '4', name: 'Saanen Pure', price: 12000000, purpose: ['DAIRY', 'BREEDING'], weight: 60, health: 'EXCELLENT' },
+    { id: '5', name: 'Cross Dorper F1', price: 4500000, purpose: ['MEAT', 'BREEDING'], weight: 55, health: 'EXCELLENT' },
 ];
 
 export async function getRecommendations(preferences: UserPreferences): Promise<GoatRecommendation[]> {

@@ -13,7 +13,7 @@ model Goat {
   id                String          @id @default(uuid())
   registrationCode  String          @unique
   name              String
-  breed             String          // Etawa, Kacang, PE, Boer (Stored as String)
+  breed             String          // Etawa, Kacang, PE, Boer, Dorper, Cross Dorper (Stored as String)
   gender            String          // MALE, FEMALE
   birthDate         DateTime
   

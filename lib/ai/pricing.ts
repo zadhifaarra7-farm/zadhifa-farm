@@ -10,7 +10,10 @@ export function predictPrice(
         'ETAWA': 1.5,
         'BOER': 1.8,
         'KACANG': 1.1,
-        'JAWARANDU': 1.2
+        'JAWARANDU': 1.2,
+        'DORPER': 2.5,
+        'CROSS DORPER': 2.0,
+        'GARUT': 1.6
     };
 
     // 1. Growth Projection
@@ -22,8 +25,8 @@ export function predictPrice(
     if (daysUntilIdulAdha < 30) seasonalMultiplier = 1.6; // High spike
     else if (daysUntilIdulAdha < 90) seasonalMultiplier = 1.3; // Building up
 
-    // 3. Breed Premium
-    const breedFactor = BREED_MULTIPLIERS[breed] || 1.0;
+    // 3. Breed Premium (Case insensitive)
+    const breedFactor = BREED_MULTIPLIERS[breed.toUpperCase()] || 1.0;
 
     // Calculate
     const predictedPrice = projectedWeight * BASE_PRICE_PER_KG * breedFactor * seasonalMultiplier;

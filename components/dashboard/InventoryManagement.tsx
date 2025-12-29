@@ -169,6 +169,7 @@ export default function InventoryManagement() {
                                     <label className="block text-sm text-text-muted mb-1">Jenis/Ras</label>
                                     <select name="breed" defaultValue={editingGoat?.breed || 'Dorper'} className="input w-full">
                                         <option value="Dorper">Dorper</option>
+                                        <option value="Cross Dorper">Cross Dorper</option>
                                         <option value="Garut">Garut</option>
                                         <option value="Etawa">Etawa</option>
                                         <option value="Kacang">Kacang</option>
