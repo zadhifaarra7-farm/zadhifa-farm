@@ -58,8 +58,8 @@ export default function HeroSection() {
 
                     {/* Headline */}
                     <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
-                        Ternak Premium <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-farm-400 to-gold-400">Masa Depan</span>
+                        Dari Hati, Untuk Rasa <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-farm-400 to-gold-400">Berkualitas Premium</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto leading-relaxed">
