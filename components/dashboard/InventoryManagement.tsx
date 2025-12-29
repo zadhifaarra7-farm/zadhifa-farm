@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Plus, Pencil, Trash2, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, ImageIcon, Upload } from 'lucide-react';
 import { addGoat, updateGoat, deleteGoat, getAllGoats } from '@/lib/actions/goat';
+import { uploadImage } from '@/lib/actions/upload';
 
 type Goat = {
     id: string;
@@ -15,6 +16,7 @@ type Goat = {
     basePrice: number;
     isAvailable: boolean;
     notes?: string | null;
+    thumbnailUrl?: string | null;
 };
 
 export default function InventoryManagement() {
@@ -23,6 +25,10 @@ export default function InventoryManagement() {
     const [editingGoat, setEditingGoat] = useState<Goat | null>(null);
     const [loading, setLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [uploadingImage, setUploadingImage] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         loadGoats();
@@ -41,10 +47,50 @@ export default function InventoryManagement() {
         }
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setSelectedImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const clearImage = () => {
+        setSelectedImage(null);
+        setImagePreview(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         const formData = new FormData(e.currentTarget);
+
+        // Upload image first if selected
+        if (selectedImage) {
+            setUploadingImage(true);
+            try {
+                const imageFormData = new FormData();
+                imageFormData.append('file', selectedImage);
+                const uploadResult = await uploadImage(imageFormData);
+                console.log('Image upload result:', uploadResult);
+                if (uploadResult.success && uploadResult.url) {
+                    formData.set('thumbnailUrl', uploadResult.url);
+                } else {
+                    alert('Gagal upload foto: ' + (uploadResult.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            } finally {
+                setUploadingImage(false);
+            }
+        }
 
         console.log('Submitting form data:', Object.fromEntries(formData.entries()));
 
@@ -61,6 +107,7 @@ export default function InventoryManagement() {
             if (result.success) {
                 setShowForm(false);
                 setEditingGoat(null);
+                clearImage();
                 await loadGoats();
             } else {
                 alert(result.error || 'Terjadi kesalahan');
@@ -75,8 +122,19 @@ export default function InventoryManagement() {
 
     const handleDelete = async (id: string) => {
         if (confirm('Yakin hapus domba ini?')) {
-            await deleteGoat(id);
-            loadGoats();
+            console.log('Deleting goat with id:', id);
+            try {
+                const result = await deleteGoat(id);
+                console.log('Delete result:', result);
+                if (result.success) {
+                    await loadGoats();
+                } else {
+                    alert(result.error || 'Gagal menghapus domba');
+                }
+            } catch (error) {
+                console.error('Error deleting goat:', error);
+                alert('Gagal menghapus domba');
+            }
         }
     };
 
@@ -101,10 +159,10 @@ export default function InventoryManagement() {
             {showForm && (
                 <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
                     <Card className="w-full max-w-lg p-6 relative">
-                        <button onClick={() => setShowForm(false)} className="absolute top-4 right-4 text-text-muted hover:text-white">
+                        <button onClick={() => { setShowForm(false); clearImage(); }} className="absolute top-4 right-4 text-text-muted hover:text-white">
                             <X className="w-5 h-5" />
                         </button>
-                        <h3 className="text-xl font-bold mb-6">{editingGoat ? 'Edit Domba' : 'Tambah Domba Baru'}</h3>
+                        <h3 className="text-xl font-bold mb-4">{editingGoat ? 'Edit Domba' : 'Tambah Domba Baru'}</h3>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
@@ -139,6 +197,42 @@ export default function InventoryManagement() {
                                 <label className="block text-sm text-text-muted mb-1">Tanggal Lahir</label>
                                 <input type="date" name="birthDate" className="input w-full" />
                             </div>
+                            {/* Image Upload */}
+                            <div>
+                                <label className="block text-sm text-text-muted mb-1">Foto Domba</label>
+                                <div className="flex gap-3 items-start">
+                                    <div className="flex-1">
+                                        <input
+                                            ref={fileInputRef}
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            className="hidden"
+                                            id="goat-image"
+                                        />
+                                        <label
+                                            htmlFor="goat-image"
+                                            className="input w-full flex items-center justify-center gap-2 cursor-pointer hover:bg-white/10 transition-colors"
+                                        >
+                                            <Upload className="w-4 h-4" />
+                                            <span className="text-sm">{selectedImage ? selectedImage.name : 'Pilih Foto'}</span>
+                                        </label>
+                                    </div>
+                                    {imagePreview && (
+                                        <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-white/10">
+                                            <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                            <button
+                                                type="button"
+                                                onClick={clearImage}
+                                                className="absolute top-0 right-0 bg-red-500 rounded-bl p-0.5"
+                                            >
+                                                <X className="w-3 h-3" />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                                <p className="text-xs text-text-muted mt-1">Max 4MB. Format: JPG, PNG, WebP</p>
+                            </div>
                             <div>
                                 <label className="block text-sm text-text-muted mb-1">Catatan</label>
                                 <textarea name="notes" defaultValue={editingGoat?.notes || ''} className="input w-full" rows={2} placeholder="Catatan tambahan..."></textarea>
@@ -151,8 +245,8 @@ export default function InventoryManagement() {
                                     </label>
                                 </div>
                             )}
-                            <Button type="submit" isLoading={loading} className="w-full">
-                                {editingGoat ? 'Update' : 'Simpan'}
+                            <Button type="submit" isLoading={loading || uploadingImage} className="w-full">
+                                {uploadingImage ? 'Mengupload foto...' : (editingGoat ? 'Update' : 'Simpan')}
                             </Button>
                         </form>
                     </Card>
@@ -185,6 +279,7 @@ export default function InventoryManagement() {
                     <table className="w-full">
                         <thead className="bg-surface-elevated border-b border-white/5">
                             <tr>
+                                <th className="text-left p-4 text-sm font-medium text-text-muted">Foto</th>
                                 <th className="text-left p-4 text-sm font-medium text-text-muted">Kode</th>
                                 <th className="text-left p-4 text-sm font-medium text-text-muted">Jenis</th>
                                 <th className="text-left p-4 text-sm font-medium text-text-muted">Gender</th>
@@ -197,6 +292,15 @@ export default function InventoryManagement() {
                         <tbody>
                             {goats.map((goat) => (
                                 <tr key={goat.id} className="border-b border-white/5 hover:bg-white/5">
+                                    <td className="p-4">
+                                        {goat.thumbnailUrl ? (
+                                            <img src={goat.thumbnailUrl} alt={goat.breed} className="w-12 h-12 rounded-lg object-cover" />
+                                        ) : (
+                                            <div className="w-12 h-12 rounded-lg bg-surface-elevated flex items-center justify-center">
+                                                <ImageIcon className="w-5 h-5 text-text-muted" />
+                                            </div>
+                                        )}
+                                    </td>
                                     <td className="p-4 font-mono text-sm">{goat.registrationCode}</td>
                                     <td className="p-4">{goat.breed}</td>
                                     <td className="p-4">
@@ -225,7 +329,7 @@ export default function InventoryManagement() {
                             ))}
                             {isLoading ? (
                                 <tr>
-                                    <td colSpan={7} className="p-8 text-center text-text-muted">
+                                    <td colSpan={8} className="p-8 text-center text-text-muted">
                                         <div className="flex items-center justify-center gap-2">
                                             <div className="w-4 h-4 border-2 border-farm-400 border-t-transparent rounded-full animate-spin"></div>
                                             Memuat data...
@@ -234,7 +338,7 @@ export default function InventoryManagement() {
                                 </tr>
                             ) : goats.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} className="p-8 text-center text-text-muted">
+                                    <td colSpan={8} className="p-8 text-center text-text-muted">
                                         Belum ada data domba. Klik &quot;Tambah Domba&quot; untuk mulai.
                                     </td>
                                 </tr>
