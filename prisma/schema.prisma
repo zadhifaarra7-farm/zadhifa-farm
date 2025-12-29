@@ -215,6 +215,7 @@ model Order {
   
   user            User          @relation(fields: [userId], references: [id])
   items           OrderItem[]
+  invoice         Invoice?
   
   @@index([userId, status])
   @@index([orderNumber])
@@ -322,6 +323,41 @@ model Transaction {
   createdAt   DateTime @default(now())
 
   @@index([type, date])
+}
+
+// Invoice untuk Order
+model Invoice {
+  id            String    @id @default(uuid())
+  invoiceNumber String    @unique
+  orderId       String?   @unique
+  
+  // Buyer Info
+  buyerName     String
+  buyerPhone    String
+  buyerEmail    String?
+  
+  // Items (JSON string)
+  items         String    @default("[]")
+  subtotal      Float
+  tax           Float     @default(0)
+  discount      Float     @default(0)
+  total         Float
+  
+  // Status
+  status        String    @default("PENDING") // PENDING, PAID, CANCELLED
+  paymentMethod String?
+  paidAt        DateTime?
+  
+  // Notes
+  notes         String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  order         Order?    @relation(fields: [orderId], references: [id])
+  
+  @@index([status])
+  @@index([createdAt])
 }
 
 // Auth Models (Basic)

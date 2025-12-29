@@ -7,7 +7,7 @@ import LogoutButton from '@/components/dashboard/LogoutButton';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Bell, Users, Dna, Package, Leaf, Wallet } from 'lucide-react';
+import { Bell, Users, Dna, Package, Leaf, Wallet, FileText } from 'lucide-react';
 import { getDashboardStats, getRecentAlerts, getRecentOrders, getGrowthData } from '@/lib/actions/dashboard';
 import { getInventory } from '@/lib/actions/inventory';
 
@@ -110,6 +110,22 @@ export default async function Dashboard() {
                                 <div>
                                     <h3 className="text-lg font-bold mb-1">Keuangan</h3>
                                     <p className="text-xs text-text-muted">Pendapatan</p>
+                                </div>
+                            </Link>
+                        </Card>
+
+                        {/* Invoice Card */}
+                        <Card className="p-6 flex flex-col justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+                            <Link href="/dashboard/invoices" className="h-full flex flex-col">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-blue-500/10 rounded-xl text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                        <FileText className="w-6 h-6" />
+                                    </div>
+                                    <span className="bg-blue-500/20 border border-blue-500/30 px-2 py-1 rounded text-xs text-blue-400">BARU</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold mb-1">Invoice</h3>
+                                    <p className="text-xs text-text-muted">Faktur & Tagihan</p>
                                 </div>
                             </Link>
                         </Card>

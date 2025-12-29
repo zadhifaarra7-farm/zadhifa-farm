@@ -3,6 +3,14 @@
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
+// Generate invoice number: INV-YYYYMMDD-XXXX
+function generateInvoiceNumber(): string {
+    const date = new Date()
+    const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '')
+    const random = Math.floor(1000 + Math.random() * 9000)
+    return `INV-${dateStr}-${random}`
+}
+
 export async function createWhatsAppOrder(registrationCode: string, buyerName: string, whatsapp: string) {
     // 1. Get Goat
     const goat = await prisma.goat.findUnique({
@@ -44,14 +52,46 @@ export async function createWhatsAppOrder(registrationCode: string, buyerName: s
         }
     });
 
-    const link = `https://zadhifa-farm.vercel.app/pay/${order.orderNumber}`;
-    const orderMessage = `🐐 *ORDER ZADHIFA FARM*
+    // 4. Create Invoice automatically
+    const invoiceNumber = generateInvoiceNumber();
+    const invoiceItems = [{
+        name: goat.name,
+        breed: goat.breed,
+        weight: Number(goat.currentWeight),
+        price: orderTotal,
+        quantity: 1
+    }];
+
+    try {
+        await prisma.invoice.create({
+            data: {
+                invoiceNumber,
+                orderId: order.id,
+                buyerName,
+                buyerPhone: whatsapp,
+                items: JSON.stringify(invoiceItems),
+                subtotal: orderTotal,
+                total: orderTotal,
+                status: 'PENDING'
+            }
+        });
+        revalidatePath('/dashboard/invoices');
+    } catch (error) {
+        console.error('Failed to create invoice:', error);
+        // Continue even if invoice fails - order is still valid
+    }
+
+    revalidatePath('/dashboard/orders');
+    revalidatePath('/dashboard');
+
+    const orderMessage = `🧾 *INVOICE ${invoiceNumber}*
+🐐 *ORDER ZADHIFA FARM*
 
 📋 *Detail Pesanan:*
 - Jenis: ${goat.breed}
 - Kode: ${goat.registrationCode}
 - Berat: ${goat.currentWeight} kg
-- Harga: Rp ${Number(goat.dynamicPrice || goat.basePrice).toLocaleString('id-ID')}
+- Harga: Rp ${orderTotal.toLocaleString('id-ID')}
 
 👤 *Data Pembeli:*
 - Nama: ${buyerName}
@@ -62,9 +102,11 @@ Bank BCA: 1390404430
 a.n Mahardhika Fawzan Dwipayana
 
 Order ID: ${order.orderNumber}
+Invoice: ${invoiceNumber}
 
 Mohon konfirmasi ketersediaan. Terima kasih! 🙏`;
-    return { success: true, phone: '6287722076763', text: orderMessage };
+
+    return { success: true, phone: '6287722076763', text: orderMessage, invoiceNumber };
 }
 
 export async function exportOrdersToCSV() {

@@ -21,22 +21,38 @@ async function main() {
     });
 
     try {
-        const sqlPath = path.join(__dirname, '..', 'scripts', 'create-tables.sql');
-        const sqlContent = fs.readFileSync(sqlPath, 'utf-8');
-        
-        console.log('Executing SQL migration to create missing tables...');
-        console.log('SQL File:', sqlPath);
-        
-        // Split by semicolon (crude but effective for CREATE TABLE statements)
-        const statements = sqlContent.split(';').filter(s => s.trim().length > 0);
-        
+        console.log("Executing SQL migration to create missing tables...");
+
+        // First run the base tables
+        const sqlPath = path.join(process.cwd(), 'scripts', 'create-tables.sql');
+        console.log("SQL File:", sqlPath);
+        const sql = fs.readFileSync(sqlPath, 'utf-8');
+        const statements = sql.split(';').filter(s => s.trim());
+
         for (const stmt of statements) {
-            console.log('Running statement:', stmt.substring(0, 50) + '...');
-            await client.execute(stmt);
+            if (stmt.trim()) {
+                console.log("Running statement:", stmt.substring(0, 50) + "...");
+                await client.execute(stmt);
+            }
         }
-        
-        console.log('✅ Tables created successfully in Turso.');
-        
+
+        // Then run the invoice table
+        const invoiceSqlPath = path.join(process.cwd(), 'scripts', 'create-invoice-table.sql');
+        if (fs.existsSync(invoiceSqlPath)) {
+            console.log("Creating Invoice table...");
+            const invoiceSql = fs.readFileSync(invoiceSqlPath, 'utf-8');
+            const invoiceStatements = invoiceSql.split(';').filter(s => s.trim());
+
+            for (const stmt of invoiceStatements) {
+                if (stmt.trim()) {
+                    console.log("Running:", stmt.substring(0, 50) + "...");
+                    await client.execute(stmt);
+                }
+            }
+        }
+
+        console.log("✅ Tables created successfully in Turso.");
+
     } catch (e) {
         console.error('❌ Migration failed:', e);
     } finally {
