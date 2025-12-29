@@ -11,6 +11,8 @@ import { Bell, Users, Dna, Package, Leaf, Wallet } from 'lucide-react';
 import { getDashboardStats, getRecentAlerts, getRecentOrders } from '@/lib/actions/dashboard';
 import { getInventory } from '@/lib/actions/inventory';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Dashboard() {
     // Fetch real data from Server Actions
     const stats = await getDashboardStats();

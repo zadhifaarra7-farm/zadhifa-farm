@@ -24,22 +24,27 @@ export async function getDashboardStats() {
         // Calculate health score %
         const healthScore = totalGoats > 0 ? ((healthyGoats / totalGoats) * 100).toFixed(1) : 0;
 
-        // Format feed stock (convert kg to tons)
+        // Format feed stock (smart unit)
         const feedKg = totalFeed._sum.quantity || 0;
-        const feedTons = (feedKg / 1000).toFixed(1);
+        let formattedFeed = '';
+        if (feedKg >= 1000) {
+            formattedFeed = `${(feedKg / 1000).toFixed(1)} Ton`;
+        } else {
+            formattedFeed = `${feedKg.toLocaleString('id-ID')} kg`;
+        }
 
         // Format yearly revenue
         const revenueAmount = yearlyIncome._sum.amount || 0;
         const formattedRevenue = revenueAmount >= 1000000000
-            ? `Rp ${(revenueAmount / 1000000000).toFixed(1)}B`
+            ? `Rp ${(revenueAmount / 1000000000).toFixed(1)}M`
             : revenueAmount >= 1000000
-                ? `Rp ${(revenueAmount / 1000000).toFixed(1)}M`
+                ? `Rp ${(revenueAmount / 1000000).toFixed(1)}jt`
                 : `Rp ${revenueAmount.toLocaleString('id-ID')}`;
 
         return {
             totalGoats,
             healthScore: `${healthScore}%`,
-            feedStock: `${feedTons} Tons`,
+            feedStock: formattedFeed,
             revenueYear: formattedRevenue
         };
     } catch (error) {
