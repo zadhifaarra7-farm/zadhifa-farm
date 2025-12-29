@@ -58,6 +58,42 @@ export async function getDashboardStats() {
     }
 }
 
+export async function getGrowthData() {
+    try {
+        // Get all goats with their current weights, grouped by month
+        const goats = await prisma.goat.findMany({
+            select: {
+                currentWeight: true,
+                createdAt: true
+            },
+            orderBy: { createdAt: 'asc' }
+        });
+
+        if (goats.length === 0) return [];
+
+        // Group by month and calculate average weight
+        const monthlyData: { [key: string]: { total: number; count: number } } = {};
+
+        goats.forEach(goat => {
+            const monthKey = goat.createdAt.toLocaleDateString('id-ID', { month: 'short', year: '2-digit' });
+            if (!monthlyData[monthKey]) {
+                monthlyData[monthKey] = { total: 0, count: 0 };
+            }
+            monthlyData[monthKey].total += goat.currentWeight;
+            monthlyData[monthKey].count += 1;
+        });
+
+        return Object.entries(monthlyData).map(([date, data]) => ({
+            date,
+            avgWeight: Math.round(data.total / data.count),
+            count: data.count
+        }));
+    } catch (error) {
+        console.error('Failed to fetch growth data:', error);
+        return [];
+    }
+}
+
 
 export async function getRecentAlerts() {
     // In a real app, this would query an Alerts/Notification table

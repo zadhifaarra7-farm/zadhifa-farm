@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Bell, Users, Dna, Package, Leaf, Wallet } from 'lucide-react';
-import { getDashboardStats, getRecentAlerts, getRecentOrders } from '@/lib/actions/dashboard';
+import { getDashboardStats, getRecentAlerts, getRecentOrders, getGrowthData } from '@/lib/actions/dashboard';
 import { getInventory } from '@/lib/actions/inventory';
 
 export const dynamic = 'force-dynamic';
@@ -19,6 +19,7 @@ export default async function Dashboard() {
     const alerts = await getRecentAlerts();
     const inventory = await getInventory();
     const recentOrders = await getRecentOrders();
+    const growthData = await getGrowthData();
 
     return (
         <div className="min-h-screen bg-[#0a0f0d] p-8 space-y-8">
@@ -63,7 +64,7 @@ export default async function Dashboard() {
                 {/* Left Col - 2/3 width */}
                 <div className="lg:col-span-2 flex flex-col gap-8 h-full">
                     <div className="flex-1 min-h-0">
-                        <GoatMetrics />
+                        <GoatMetrics data={growthData} />
                     </div>
                     <div className="grid grid-cols-5 gap-4">
                         {/* Kelola Domba Card */}
