@@ -135,7 +135,7 @@ export default function Footer() {
                             </div>
                             <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.5384661835044!2d107.6123456!3d-7.0654321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e8d1b7a6e0ed%3A0x123456789abcdef!2sZadhifa%20Farm!5e0!3m2!1sen!2sid!4v1703000000000!5m2!1sen!2sid"
+                                    src="https://maps.google.com/maps?q=Zadhifa+Farm&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                     width="100%"
                                     height="350"
                                     style={{ border: 0 }}
