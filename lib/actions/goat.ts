@@ -12,8 +12,9 @@ export async function addGoat(formData: FormData) {
     const price = parseFloat(formData.get('price') as string) || 3000000;
     const birthDate = formData.get('birthDate') as string;
     const notes = formData.get('notes') as string;
+    const thumbnailUrl = formData.get('thumbnailUrl') as string;
 
-    console.log('Parsed data:', { breed, gender, weight, price, birthDate, notes });
+    console.log('Parsed data:', { breed, gender, weight, price, birthDate, notes, thumbnailUrl });
 
     try {
         const count = await prisma.goat.count();
@@ -37,6 +38,7 @@ export async function addGoat(formData: FormData) {
                 purposes: 'QURBAN,BREEDING',
                 qualityGrade: 'STANDARD',
                 notes: notes || null,
+                thumbnailUrl: thumbnailUrl || null,
                 tags: JSON.stringify(['Premium']),
                 mediaUrls: JSON.stringify([]),
             }
@@ -84,16 +86,19 @@ export async function updateGoat(id: string, formData: FormData) {
 }
 
 export async function deleteGoat(id: string) {
+    console.log('deleteGoat called with id:', id);
     try {
         await prisma.goat.delete({
             where: { id }
         });
 
+        console.log('Goat deleted successfully:', id);
         revalidatePath('/dashboard/inventory');
         return { success: true };
     } catch (error) {
         console.error('Error deleting goat:', error);
-        return { success: false, error: 'Gagal hapus data domba' };
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return { success: false, error: `Gagal hapus data domba: ${errorMessage}` };
     }
 }
 
@@ -111,6 +116,7 @@ export async function getAllGoats() {
                 basePrice: true,
                 isAvailable: true,
                 notes: true,
+                thumbnailUrl: true,
             }
         });
         // Serialize untuk menghindari masalah dengan DateTime objects
