@@ -144,7 +144,7 @@ export async function getInvoiceSummary() {
 }
 
 // Generate WhatsApp message for invoice notification to admin
-export function generateAdminWhatsAppLink(invoice: {
+export async function generateAdminWhatsAppLink(invoice: {
     invoiceNumber: string
     buyerName: string
     buyerPhone: string
