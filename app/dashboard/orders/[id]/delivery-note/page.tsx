@@ -29,11 +29,11 @@ export default function DeliveryNotePage({ params }: { params: { id: string } })
             <div className="print:hidden mb-8 flex justify-between">
                 <Link href="/dashboard/orders">
                     <Button variant="outline" className="text-black border-black/20 hover:bg-black/5">
-                        <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                        <ArrowLeft className="w-4 h-4 mr-2" /> Kembali
                     </Button>
                 </Link>
                 <Button onClick={() => window.print()} className="bg-black text-white hover:bg-black/80">
-                    <Printer className="w-4 h-4 mr-2" /> Print Surat Jalan (Driver)
+                    <Printer className="w-4 h-4 mr-2" /> Cetak Surat Jalan
                 </Button>
             </div>
 
@@ -42,14 +42,14 @@ export default function DeliveryNotePage({ params }: { params: { id: string } })
                 <div>
                     <h1 className="text-3xl font-bold uppercase tracking-wider">Surat Jalan</h1>
                     <p className="text-sm mt-1">No: DO-{order.orderNumber}</p>
-                    <p className="text-sm">Tgl: {new Date().toLocaleDateString('id-ID')}</p>
+                    <p className="text-sm">Tgl: {new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 </div>
                 <div className="text-right">
                     <h2 className="font-bold text-xl">Zadhifa Farm Indonesia</h2>
                     <p className="text-sm text-gray-600">
-                        Jl. Peternakan Modern No. 88<br />
-                        Cianjur, Jawa Barat<br />
-                        Tel: +62 812 3456 7890
+                        Jl. Barunagri, RT.01/RW.12, Sukajaya<br />
+                        Kec. Lembang, Kab. Bandung Barat, Jawa Barat 40931<br />
+                        Tel: +62 877 2207 6763
                     </p>
                 </div>
             </div>
@@ -63,7 +63,7 @@ export default function DeliveryNotePage({ params }: { params: { id: string } })
                     <p className="italic text-gray-500 mt-2">{order.deliveryNotes || 'Alamat sesuai shareloc WhatsApp'}</p>
                 </div>
                 <div>
-                    <h3 className="font-bold uppercase text-xs mb-2">Instruksi Driver:</h3>
+                    <h3 className="font-bold uppercase text-xs mb-2">Instruksi Pengiriman:</h3>
                     <p className="text-sm">
                         1. Pastikan hewan dalam kondisi sehat sebelum naik.<br />
                         2. Cek suhu amonia kandang angkut.<br />
@@ -77,7 +77,7 @@ export default function DeliveryNotePage({ params }: { params: { id: string } })
                 <thead>
                     <tr className="border-y border-black font-bold uppercase text-xs">
                         <th className="py-2">No</th>
-                        <th className="py-2">ID Ternak</th>
+                        <th className="py-2">Kode Ternak</th>
                         <th className="py-2">Jenis</th>
                         <th className="py-2">Berat (kg)</th>
                         <th className="py-2">Keterangan</th>
@@ -103,7 +103,7 @@ export default function DeliveryNotePage({ params }: { params: { id: string } })
                     <div className="border-t border-black w-1/2 mx-auto"></div>
                 </div>
                 <div className="mt-8">
-                    <p className="mb-16 text-xs uppercase">Driver / Pengirim</p>
+                    <p className="mb-16 text-xs uppercase">Pengirim / Driver</p>
                     <div className="border-t border-black w-1/2 mx-auto"></div>
                 </div>
                 <div className="mt-8">

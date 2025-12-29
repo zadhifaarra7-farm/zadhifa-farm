@@ -108,7 +108,7 @@ export default function InvoiceClient({ initialInvoices, summary }: InvoiceClien
                 <Card className="p-6 border-farm-500/20">
                     <div className="flex items-center gap-2 text-sm text-text-muted mb-1">
                         <FileText className="w-4 h-4 text-farm-400" />
-                        Total Revenue
+                        Total Pendapatan
                     </div>
                     <div className="text-2xl font-bold text-farm-400">{formatCurrency(summary.totalRevenue)}</div>
                 </Card>
@@ -243,7 +243,7 @@ export default function InvoiceClient({ initialInvoices, summary }: InvoiceClien
                             </div>
 
                             <div>
-                                <p className="text-xs text-text-muted mb-2">Items</p>
+                                <p className="text-xs text-text-muted mb-2">Produk</p>
                                 <div className="bg-surface rounded-lg p-3 space-y-2">
                                     {JSON.parse(selectedInvoice.items).map((item: any, i: number) => (
                                         <div key={i} className="flex justify-between">

@@ -123,7 +123,12 @@ export default function InvoicePrint({ invoice }: Props) {
                                 </div>
                                 <div className="text-right">
                                     <div className="text-2xl font-bold mb-1">🐑 Zadhifa Farm</div>
-                                    <p className="text-green-100 text-sm">Dari Hati, Untuk Rasa Berkualitas Premium</p>
+                                    <p className="text-green-100 text-sm font-medium mb-1">Dari Hati, Untuk Rasa Berkualitas Premium</p>
+                                    <div className="text-green-100 text-xs opacity-90 leading-relaxed">
+                                        Jl. Barunagri, RT.01/RW.12, Sukajaya, Kec. Lembang<br />
+                                        Kab. Bandung Barat, Jawa Barat 40931<br />
+                                        WhatsApp: +62 877 2207 6763
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +157,7 @@ export default function InvoicePrint({ invoice }: Props) {
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b-2 border-gray-200">
-                                        <th className="text-left py-3 font-semibold text-gray-700">Item</th>
+                                        <th className="text-left py-3 font-semibold text-gray-700">Produk</th>
                                         <th className="text-center py-3 font-semibold text-gray-700">Berat</th>
                                         <th className="text-right py-3 font-semibold text-gray-700">Harga</th>
                                     </tr>
