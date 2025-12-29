@@ -1,17 +1,27 @@
--- Create FeedStock Table
-CREATE TABLE IF NOT EXISTS "FeedStock" (
+-- Drop existing tables to recreate with correct schema
+DROP TABLE IF EXISTS "FeedStock";
+DROP TABLE IF EXISTS "Transaction";
+
+-- Create FeedStock Table (matches Prisma schema exactly)
+CREATE TABLE "FeedStock" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
-    "category" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
     "quantity" REAL NOT NULL,
     "unit" TEXT NOT NULL DEFAULT 'kg',
-    "minStock" REAL NOT NULL DEFAULT 100,
+    "pricePerUnit" REAL,
+    "supplier" TEXT,
+    "expiryDate" DATETIME,
     "notes" TEXT,
-    "updatedAt" DATETIME NOT NULL
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create Transaction Table
-CREATE TABLE IF NOT EXISTS "Transaction" (
+-- Create index on type for FeedStock
+CREATE INDEX IF NOT EXISTS "FeedStock_type_idx" ON "FeedStock"("type");
+
+-- Create Transaction Table (matches Prisma schema exactly)
+CREATE TABLE "Transaction" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "type" TEXT NOT NULL,
     "category" TEXT NOT NULL,
@@ -19,6 +29,8 @@ CREATE TABLE IF NOT EXISTS "Transaction" (
     "description" TEXT,
     "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "reference" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Create index on type and date for Transaction
+CREATE INDEX IF NOT EXISTS "Transaction_type_date_idx" ON "Transaction"("type", "date");
