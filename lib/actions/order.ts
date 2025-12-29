@@ -203,6 +203,9 @@ a.n Mahardhika Fawzan Dwipayana
 Order ID: ${order.orderNumber}
 Invoice: ${invoiceNumber}
 
+🖨️ *Cetak Invoice:*
+https://zadhifa-farm.vercel.app/invoice/${invoiceNumber}
+
 Mohon konfirmasi ketersediaan. Terima kasih! 🙏`;
 
     return { success: true, phone: '6287722076763', text: orderMessage, invoiceNumber };
