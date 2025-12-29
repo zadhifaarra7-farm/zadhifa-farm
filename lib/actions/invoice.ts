@@ -120,22 +120,38 @@ export async function updateInvoiceStatus(id: string, status: string, paymentMet
             }
         })
 
-        // 2. If PAID, update stock (Goat availability)
-        if (status === 'PAID' && invoice.order?.items) {
-            // Import dynamically to avoid circular dependency issues if any, 
-            // though here they are separate files so it should be fine.
-            // But better safe with server actions.
-            // Actually, we can just use prisma here directly or import the function.
-            // Let's us prisma direct for atomicity/simplicity or the function.
-            // Using prisma directly here avoids importing from inventory.ts which might create circular deps if inventory imports something else.
-
-            for (const item of invoice.order.items) {
-                if (item.goatId) {
-                    await prisma.goat.update({
-                        where: { id: item.goatId },
-                        data: { isAvailable: false }
-                    });
+        // 2. If PAID, update stock (Goat availability) AND Record Transaction
+        if (status === 'PAID') {
+            // A. Update Stock
+            if (invoice.order?.items) {
+                for (const item of invoice.order.items) {
+                    if (item.goatId) {
+                        try {
+                            await prisma.goat.update({
+                                where: { id: item.goatId },
+                                data: { isAvailable: false }
+                            });
+                        } catch (e) {
+                            console.error('Error updating goat stock', e)
+                        }
+                    }
                 }
+            }
+
+            // B. Record Finance Income
+            try {
+                await prisma.transaction.create({
+                    data: {
+                        type: 'INCOME',
+                        category: 'Penjualan Domba',
+                        amount: invoice.total,
+                        description: `Pembayaran Invoice #${invoice.invoiceNumber} (${invoice.buyerName})`,
+                        date: new Date(),
+                        reference: invoice.invoiceNumber
+                    }
+                })
+            } catch (e) {
+                console.error('Error creating finance transaction', e)
             }
         }
 

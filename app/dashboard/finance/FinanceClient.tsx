@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { ArrowLeft, Plus, Trash2, TrendingUp, TrendingDown, Wallet, ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { ArrowLeft, Plus, Trash2, TrendingUp, TrendingDown, Wallet, ArrowUpRight, ArrowDownRight, FileText } from 'lucide-react'
 import Link from 'next/link'
 import { addTransaction, deleteTransaction } from '@/lib/actions/finance'
 
@@ -171,6 +171,35 @@ export default function FinanceClient({ initialTransactions, summary }: FinanceC
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount)
     }
 
+    const handleExport = () => {
+        if (!transactions.length) return
+
+        // Define CSV headers
+        const headers = ['Tanggal', 'Tipe', 'Kategori', 'Jumlah', 'Keterangan', 'Referensi']
+        const rows = transactions.map(t => [
+            new Date(t.date).toISOString().split('T')[0],
+            t.type,
+            t.category,
+            t.amount.toString(),
+            `"${(t.description || '').replace(/"/g, '""')}"`,
+            t.reference || ''
+        ])
+
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(row => row.join(','))
+        ].join('\n')
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', `finance_report_${new Date().toISOString().slice(0, 10)}.csv`)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
     return (
         <div className="min-h-screen bg-[#0a0f0d] p-8 space-y-8">
             {/* Header */}
@@ -187,10 +216,16 @@ export default function FinanceClient({ initialTransactions, summary }: FinanceC
                         <p className="text-sm text-text-muted">Kelola pemasukan dan pengeluaran</p>
                     </div>
                 </div>
-                <Button onClick={() => setShowForm(!showForm)} className="gap-2">
-                    <Plus className="w-4 h-4" />
-                    Tambah Transaksi
-                </Button>
+                <div className="flex gap-2">
+                    <Button variant="outline" onClick={handleExport} className="gap-2" disabled={transactions.length === 0}>
+                        <FileText className="w-4 h-4" />
+                        Export CSV
+                    </Button>
+                    <Button onClick={() => setShowForm(!showForm)} className="gap-2">
+                        <Plus className="w-4 h-4" />
+                        Tambah Transaksi
+                    </Button>
+                </div>
             </header>
 
             {/* Stats */}
