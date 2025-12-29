@@ -12,10 +12,15 @@ export const metadata: Metadata = {
     description: 'Platform peternakan domba berbasis AI yang menggabungkan tradisi dengan teknologi.',
 };
 
-export default function Home() {
+import { getLandingStats } from '@/lib/actions/landing';
+
+export default async function Home() {
+    // Fetch stats for Hero Section (Real Data)
+    const stats = await getLandingStats();
+
     return (
         <main className="min-h-screen bg-[#0a0f0d]">
-            <HeroSection />
+            <HeroSection stats={stats} />
 
             <VisionMission />
 

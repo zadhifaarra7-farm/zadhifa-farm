@@ -5,14 +5,31 @@ import { useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { ArrowRight, Leaf } from 'lucide-react';
 
-export default function HeroSection() {
+
+
+interface HeroStats {
+    totalGoats: number;
+    happyCustomers: number;
+    breeds: number;
+    successRate: number;
+}
+
+export default function HeroSection({ stats }: { stats?: HeroStats }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollY } = useScroll();
     const y = useTransform(scrollY, [0, 500], [0, 200]);
     const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
+    // Default if no stats provided
+    const displayStats = stats || {
+        totalGoats: 100,
+        happyCustomers: 50,
+        breeds: 5,
+        successRate: 99
+    };
+
     return (
-        <div ref={containerRef} className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <div ref={containerRef} className="relative min-h-screen w-full flex flex-col items-center justify-center pt-20 md:pt-0">
             {/* Video Background with Parallax */}
             <motion.div
                 style={{ y, opacity }}
@@ -90,10 +107,10 @@ export default function HeroSection() {
                         className="pt-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/5 mt-16"
                     >
                         {[
-                            { label: 'Total Ternak', value: '1,200+' },
-                            { label: 'Pelanggan Puas', value: '850+' },
-                            { label: 'Jenis Ras', value: '8' },
-                            { label: 'Tingkat Sukses', value: '99%' },
+                            { label: 'Total Ternak', value: `${displayStats.totalGoats}+` },
+                            { label: 'Pelanggan Puas', value: `${displayStats.happyCustomers}+` },
+                            { label: 'Jenis Ras', value: displayStats.breeds },
+                            { label: 'Tingkat Sukses', value: `${displayStats.successRate}%` },
                         ].map((stat, index) => (
                             <div key={index} className="text-center">
                                 <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
@@ -109,7 +126,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+                className="pt-16 pb-8 flex flex-col items-center gap-2"
             >
                 <span className="text-xs text-farm-500/60 uppercase tracking-widest">Gulir untuk Jelajahi</span>
                 <div className="w-[1px] h-12 bg-gradient-to-b from-farm-500/0 via-farm-500/50 to-farm-500/0" />
