@@ -293,6 +293,37 @@ model AIRecommendationLog {
   @@index([createdAt])
 }
 
+// Stok Pakan
+model FeedStock {
+  id           String    @id @default(uuid())
+  name         String    // Nama pakan (Rumput, Konsentrat, dll)
+  type         String    // Jenis (RUMPUT, KONSENTRAT, HIJAUAN, MINERAL)
+  quantity     Float     // Jumlah dalam kg
+  unit         String    @default("kg")
+  pricePerUnit Float?    // Harga per kg
+  supplier     String?   // Nama supplier
+  expiryDate   DateTime?
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([type])
+}
+
+// Transaksi Keuangan
+model Transaction {
+  id          String   @id @default(uuid())
+  type        String   // INCOME atau EXPENSE
+  category    String   // Penjualan, Pakan, Obat, dll
+  amount      Float
+  description String?
+  date        DateTime @default(now())
+  reference   String?  // Order ID atau nota
+  createdAt   DateTime @default(now())
+
+  @@index([type, date])
+}
+
 // Auth Models (Basic)
 model User {
   id              String    @id @default(uuid())

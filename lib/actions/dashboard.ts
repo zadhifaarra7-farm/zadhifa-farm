@@ -4,21 +4,43 @@ import { prisma } from '@/lib/prisma'
 
 export async function getDashboardStats() {
     try {
-        const [totalGoats, healthyGoats, lowFeed] = await Promise.all([
+        const [totalGoats, healthyGoats, totalFeed, yearlyIncome] = await Promise.all([
             prisma.goat.count(),
             prisma.goat.count({ where: { healthStatus: 'EXCELLENT' } }),
-            // Mocking feed stock for now as we don't have a Feed model yet
-            Promise.resolve(2.4)
+            // Get total feed stock from FeedStock model
+            prisma.feedStock.aggregate({
+                _sum: { quantity: true }
+            }),
+            // Get yearly income from Transaction model
+            prisma.transaction.aggregate({
+                where: {
+                    type: 'INCOME',
+                    date: { gte: new Date(new Date().getFullYear(), 0, 1) }
+                },
+                _sum: { amount: true }
+            })
         ]);
 
         // Calculate health score %
         const healthScore = totalGoats > 0 ? ((healthyGoats / totalGoats) * 100).toFixed(1) : 0;
 
+        // Format feed stock (convert kg to tons)
+        const feedKg = totalFeed._sum.quantity || 0;
+        const feedTons = (feedKg / 1000).toFixed(1);
+
+        // Format yearly revenue
+        const revenueAmount = yearlyIncome._sum.amount || 0;
+        const formattedRevenue = revenueAmount >= 1000000000
+            ? `Rp ${(revenueAmount / 1000000000).toFixed(1)}B`
+            : revenueAmount >= 1000000
+                ? `Rp ${(revenueAmount / 1000000).toFixed(1)}M`
+                : `Rp ${revenueAmount.toLocaleString('id-ID')}`;
+
         return {
             totalGoats,
             healthScore: `${healthScore}%`,
-            feedStock: `${lowFeed} Tons`,
-            revenueYear: 'Rp 142.5M' // Mock revenue for demo
+            feedStock: `${feedTons} Tons`,
+            revenueYear: formattedRevenue
         };
     } catch (error) {
         console.error('Failed to fetch stats:', error);
@@ -30,6 +52,7 @@ export async function getDashboardStats() {
         };
     }
 }
+
 
 export async function getRecentAlerts() {
     // In a real app, this would query an Alerts/Notification table

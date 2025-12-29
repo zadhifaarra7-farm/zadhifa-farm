@@ -7,7 +7,7 @@ import LogoutButton from '@/components/dashboard/LogoutButton';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Bell, Users, Dna, Package } from 'lucide-react';
+import { Bell, Users, Dna, Package, Leaf, Wallet } from 'lucide-react';
 import { getDashboardStats, getRecentAlerts, getRecentOrders } from '@/lib/actions/dashboard';
 import { getInventory } from '@/lib/actions/inventory';
 
@@ -63,19 +63,50 @@ export default async function Dashboard() {
                     <div className="flex-1 min-h-0">
                         <GoatMetrics />
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        {/* Inventory Management Card */}
+                    <div className="grid grid-cols-5 gap-4">
+                        {/* Kelola Domba Card */}
                         <Card className="p-6 flex flex-col justify-between hover:bg-white/5 transition-colors cursor-pointer group">
                             <Link href="/dashboard/inventory" className="h-full flex flex-col">
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="p-3 bg-farm-500/10 rounded-xl text-farm-400 group-hover:bg-farm-500 group-hover:text-white transition-colors">
                                         <Package className="w-6 h-6" />
                                     </div>
-                                    <span className="bg-surface border border-white/10 px-2 py-1 rounded text-xs text-text-muted">BARU</span>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold mb-1">Kelola Stok</h3>
-                                    <p className="text-sm text-text-muted">Tambah / Edit Domba</p>
+                                    <h3 className="text-lg font-bold mb-1">Domba</h3>
+                                    <p className="text-xs text-text-muted">Kelola Stok</p>
+                                </div>
+                            </Link>
+                        </Card>
+
+                        {/* Stok Pakan Card */}
+                        <Card className="p-6 flex flex-col justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+                            <Link href="/dashboard/feed" className="h-full flex flex-col">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-green-500/10 rounded-xl text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
+                                        <Leaf className="w-6 h-6" />
+                                    </div>
+                                    <span className="bg-green-500/20 border border-green-500/30 px-2 py-1 rounded text-xs text-green-400">BARU</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold mb-1">Pakan</h3>
+                                    <p className="text-xs text-text-muted">Kelola Stok</p>
+                                </div>
+                            </Link>
+                        </Card>
+
+                        {/* Keuangan Card */}
+                        <Card className="p-6 flex flex-col justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+                            <Link href="/dashboard/finance" className="h-full flex flex-col">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-gold-500/10 rounded-xl text-gold-400 group-hover:bg-gold-500 group-hover:text-white transition-colors">
+                                        <Wallet className="w-6 h-6" />
+                                    </div>
+                                    <span className="bg-gold-500/20 border border-gold-500/30 px-2 py-1 rounded text-xs text-gold-400">BARU</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold mb-1">Keuangan</h3>
+                                    <p className="text-xs text-text-muted">Pendapatan</p>
                                 </div>
                             </Link>
                         </Card>
@@ -89,8 +120,8 @@ export default async function Dashboard() {
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold mb-1">Pelanggan</h3>
-                                    <p className="text-sm text-text-muted">Lihat Data & Promo</p>
+                                    <h3 className="text-lg font-bold mb-1">Pelanggan</h3>
+                                    <p className="text-xs text-text-muted">Data & Promo</p>
                                 </div>
                             </Link>
                         </Card>
@@ -105,8 +136,8 @@ export default async function Dashboard() {
                                     <span className="bg-surface border border-white/10 px-2 py-1 rounded text-xs text-text-muted">BETA</span>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold mb-1">Lab Genetik</h3>
-                                    <p className="text-sm text-text-muted">Simulasi Perkawinan</p>
+                                    <h3 className="text-lg font-bold mb-1">Genetik</h3>
+                                    <p className="text-xs text-text-muted">Lab Breeding</p>
                                 </div>
                             </Link>
                         </Card>
