@@ -31,6 +31,8 @@ export default function AIGoatFinder() {
     const [budget, setBudget] = useState(5000000);
     const [purpose, setPurpose] = useState<Purpose>('QURBAN');
     const [date, setDate] = useState('');
+    const [minWeight, setMinWeight] = useState(25);
+    const [breed, setBreed] = useState('ALL');
 
     // Checkout Form State
     const [buyerName, setBuyerName] = useState('');
@@ -44,7 +46,9 @@ export default function AIGoatFinder() {
             const matches = await searchGoats({
                 budget,
                 purpose,
-                eventDate: date ? new Date(date) : undefined
+                eventDate: date ? new Date(date) : undefined,
+                breed: breed === 'ALL' ? undefined : breed,
+                minWeight
             });
 
             setTimeout(() => {
@@ -190,6 +194,36 @@ export default function AIGoatFinder() {
 
                                             <div>
                                                 <label className="block text-sm font-medium text-farm-300 mb-3 flex items-center gap-2">
+                                                    <Calculator className="w-4 h-4" /> Berat Minimal
+                                                </label>
+                                                <div className="flex items-center gap-3 mb-4">
+                                                    <span className="text-lg text-text-muted">Min</span>
+                                                    <input
+                                                        type="number"
+                                                        value={minWeight}
+                                                        onChange={(e) => setMinWeight(parseInt(e.target.value) || 0)}
+                                                        className="input text-2xl font-bold font-mono flex-1 text-center"
+                                                        placeholder="25"
+                                                    />
+                                                    <span className="text-lg text-text-muted">kg</span>
+                                                </div>
+                                                <input
+                                                    type="range"
+                                                    min="20"
+                                                    max="100"
+                                                    step="1"
+                                                    value={minWeight}
+                                                    onChange={(e) => setMinWeight(Number(e.target.value))}
+                                                    className="w-full accent-farm-500"
+                                                />
+                                                <div className="flex justify-between text-xs text-text-muted mt-2">
+                                                    <span>20 kg</span>
+                                                    <span>100 kg+</span>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-medium text-farm-300 mb-3 flex items-center gap-2">
                                                     <Calendar className="w-4 h-4" /> Tanggal Acara
                                                 </label>
                                                 <input
@@ -203,6 +237,22 @@ export default function AIGoatFinder() {
 
                                         {/* Right Col: Purpose Selection */}
                                         <div className="space-y-6">
+                                            <div>
+                                                <label className="block text-sm font-medium text-farm-300 mb-2">Jenis Domba</label>
+                                                <select
+                                                    value={breed}
+                                                    onChange={(e) => setBreed(e.target.value)}
+                                                    className="input w-full mb-4"
+                                                >
+                                                    <option value="ALL">Semua Jenis</option>
+                                                    <option value="GARUT">Domba Garut</option>
+                                                    <option value="TEXEL">Domba Texel</option>
+                                                    <option value="DEG">Domba Ekor Gemuk (DEG)</option>
+                                                    <option value="DORPER">Dorper</option>
+                                                    <option value="CROSS_DORPER">Cross Dorper</option>
+                                                </select>
+                                            </div>
+
                                             <label className="block text-sm font-medium text-farm-300 mb-2">Tujuan</label>
                                             <div className="grid grid-cols-2 gap-4">
                                                 {(['QURBAN', 'AQIQAH', 'BREEDING', 'HORECA'] as Purpose[]).map((p) => (

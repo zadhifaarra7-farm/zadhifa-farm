@@ -6,6 +6,8 @@ export interface SearchParams {
     budget: number;
     purpose: string;
     eventDate?: Date;
+    breed?: string;
+    minWeight?: number;
 }
 
 export async function searchGoats(params: SearchParams) {
@@ -14,7 +16,8 @@ export async function searchGoats(params: SearchParams) {
         const allGoats = await prisma.goat.findMany({
             where: {
                 isAvailable: true,
-                currentWeight: { gte: 25 }, // Minimum viable weight
+                currentWeight: { gte: params.minWeight || 25 },
+                breed: params.breed ? { equals: params.breed } : undefined,
             },
             take: 50 // Get more to filter later
         });
