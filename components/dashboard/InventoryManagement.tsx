@@ -22,14 +22,23 @@ export default function InventoryManagement() {
     const [showForm, setShowForm] = useState(false);
     const [editingGoat, setEditingGoat] = useState<Goat | null>(null);
     const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         loadGoats();
     }, []);
 
     const loadGoats = async () => {
-        const data = await getAllGoats();
-        setGoats(data as Goat[]);
+        setIsLoading(true);
+        try {
+            const data = await getAllGoats();
+            console.log('Loaded goats:', data);
+            setGoats(data as Goat[]);
+        } catch (error) {
+            console.error('Error loading goats:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,16 +46,31 @@ export default function InventoryManagement() {
         setLoading(true);
         const formData = new FormData(e.currentTarget);
 
-        if (editingGoat) {
-            await updateGoat(editingGoat.id, formData);
-        } else {
-            await addGoat(formData);
-        }
+        console.log('Submitting form data:', Object.fromEntries(formData.entries()));
 
-        setLoading(false);
-        setShowForm(false);
-        setEditingGoat(null);
-        loadGoats();
+        try {
+            let result;
+            if (editingGoat) {
+                result = await updateGoat(editingGoat.id, formData);
+            } else {
+                result = await addGoat(formData);
+            }
+
+            console.log('Server action result:', result);
+
+            if (result.success) {
+                setShowForm(false);
+                setEditingGoat(null);
+                await loadGoats();
+            } else {
+                alert(result.error || 'Terjadi kesalahan');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Gagal menyimpan data');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleDelete = async (id: string) => {
@@ -199,13 +223,22 @@ export default function InventoryManagement() {
                                     </td>
                                 </tr>
                             ))}
-                            {goats.length === 0 && (
+                            {isLoading ? (
                                 <tr>
                                     <td colSpan={7} className="p-8 text-center text-text-muted">
-                                        Belum ada data domba. Klik "Tambah Domba" untuk mulai.
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-farm-400 border-t-transparent rounded-full animate-spin"></div>
+                                            Memuat data...
+                                        </div>
                                     </td>
                                 </tr>
-                            )}
+                            ) : goats.length === 0 ? (
+                                <tr>
+                                    <td colSpan={7} className="p-8 text-center text-text-muted">
+                                        Belum ada data domba. Klik &quot;Tambah Domba&quot; untuk mulai.
+                                    </td>
+                                </tr>
+                            ) : null}
                         </tbody>
                     </table>
                 </div>
