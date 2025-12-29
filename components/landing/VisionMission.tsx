@@ -35,23 +35,7 @@ export default function VisionMission() {
 
             <div className="container-custom px-4 relative z-10">
                 {/* Slogan */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="text-center mb-16"
-                >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 mb-6">
-                        <Sparkles className="w-4 h-4 text-gold-400" />
-                        <span className="text-gold-400 text-sm font-medium">Filosofi Kami</span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                        <span className="bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 bg-clip-text text-transparent">
-                            "Dari Hati, Untuk Rasa Berkualitas Premium"
-                        </span>
-                    </h2>
-                </motion.div>
+
 
                 {/* Vision */}
                 <motion.div
