@@ -109,6 +109,105 @@ Mohon konfirmasi ketersediaan. Terima kasih! 🙏`;
     return { success: true, phone: '6287722076763', text: orderMessage, invoiceNumber };
 }
 
+// Create order using goat ID (for AI Finder checkout)
+export async function createOrderById(goatId: string, buyerName: string, whatsapp: string) {
+    // 1. Get Goat by ID
+    const goat = await prisma.goat.findUnique({
+        where: { id: goatId }
+    });
+
+    if (!goat) return { success: false, error: 'Goat not found' };
+
+    // 2. Create or get user
+    const user = await prisma.user.upsert({
+        where: { email: `${whatsapp}@guest.com` },
+        update: { name: buyerName },
+        create: {
+            email: `${whatsapp}@guest.com`,
+            name: buyerName,
+            phone: whatsapp,
+            password: 'GUEST_USER',
+        }
+    });
+
+    // 3. Create Order
+    const orderTotal = Number(goat.dynamicPrice || goat.basePrice);
+    const order = await prisma.order.create({
+        data: {
+            orderNumber: `AI-${Date.now().toString().slice(-6)}`,
+            subtotal: orderTotal,
+            totalAmount: orderTotal,
+            status: 'PENDING',
+            paymentStatus: 'UNPAID',
+            userId: user.id,
+            items: {
+                create: {
+                    goatId: goat.id,
+                    priceAtPurchase: orderTotal,
+                    weightAtPurchase: Number(goat.currentWeight)
+                }
+            },
+            deliveryNotes: `AI Finder Order from ${buyerName}`
+        }
+    });
+
+    // 4. Create Invoice automatically
+    const invoiceNumber = generateInvoiceNumber();
+    const invoiceItems = [{
+        name: goat.name,
+        breed: goat.breed,
+        weight: Number(goat.currentWeight),
+        price: orderTotal,
+        quantity: 1
+    }];
+
+    try {
+        await prisma.invoice.create({
+            data: {
+                invoiceNumber,
+                orderId: order.id,
+                buyerName,
+                buyerPhone: whatsapp,
+                items: JSON.stringify(invoiceItems),
+                subtotal: orderTotal,
+                total: orderTotal,
+                status: 'PENDING'
+            }
+        });
+        revalidatePath('/dashboard/invoices');
+    } catch (error) {
+        console.error('Failed to create invoice:', error);
+    }
+
+    revalidatePath('/dashboard/orders');
+    revalidatePath('/dashboard');
+
+    const orderMessage = `🧾 *INVOICE ${invoiceNumber}*
+🐐 *ORDER ZADHIFA FARM*
+
+📋 *Detail Pesanan:*
+- Nama: ${goat.name}
+- Jenis: ${goat.breed}
+- Kode: ${goat.registrationCode}
+- Berat: ${goat.currentWeight} kg
+- Harga: Rp ${orderTotal.toLocaleString('id-ID')}
+
+👤 *Data Pembeli:*
+- Nama: ${buyerName}
+- No HP: ${whatsapp}
+
+🏦 *Transfer ke:*
+Bank BCA: 1390404430
+a.n Mahardhika Fawzan Dwipayana
+
+Order ID: ${order.orderNumber}
+Invoice: ${invoiceNumber}
+
+Mohon konfirmasi ketersediaan. Terima kasih! 🙏`;
+
+    return { success: true, phone: '6287722076763', text: orderMessage, invoiceNumber };
+}
+
 export async function exportOrdersToCSV() {
     const orders = await prisma.order.findMany({
         include: { user: true, items: { include: { goat: true } } },
