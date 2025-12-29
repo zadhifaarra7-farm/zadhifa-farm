@@ -4,6 +4,8 @@ const nextConfig = {
     images: {
         domains: ['images.unsplash.com', 'via.placeholder.com'],
     },
+    // Essential for Turso/LibSQL on Vercel
+    serverExternalPackages: ['@libsql/client', '@prisma/adapter-libsql'],
 }
 
 module.exports = nextConfig
