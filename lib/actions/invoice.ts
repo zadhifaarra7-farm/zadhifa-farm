@@ -103,14 +103,42 @@ export async function getInvoiceByNumber(invoiceNumber: string) {
 
 export async function updateInvoiceStatus(id: string, status: string, paymentMethod?: string) {
     try {
-        await prisma.invoice.update({
+        // 1. Update Invoice
+        const invoice = await prisma.invoice.update({
             where: { id },
             data: {
                 status,
                 ...(paymentMethod && { paymentMethod }),
                 ...(status === 'PAID' && { paidAt: new Date() })
+            },
+            include: {
+                order: {
+                    include: {
+                        items: true
+                    }
+                }
             }
         })
+
+        // 2. If PAID, update stock (Goat availability)
+        if (status === 'PAID' && invoice.order?.items) {
+            // Import dynamically to avoid circular dependency issues if any, 
+            // though here they are separate files so it should be fine.
+            // But better safe with server actions.
+            // Actually, we can just use prisma here directly or import the function.
+            // Let's us prisma direct for atomicity/simplicity or the function.
+            // Using prisma directly here avoids importing from inventory.ts which might create circular deps if inventory imports something else.
+
+            for (const item of invoice.order.items) {
+                if (item.goatId) {
+                    await prisma.goat.update({
+                        where: { id: item.goatId },
+                        data: { isAvailable: false }
+                    });
+                }
+            }
+        }
+
         revalidatePath('/dashboard/invoices')
         return { success: true }
     } catch (error) {

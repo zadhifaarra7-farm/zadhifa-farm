@@ -63,3 +63,18 @@ export async function getGoatById(id: string) {
         return null;
     }
 }
+export async function markGoatAsSold(id: string) {
+    try {
+        await prisma.goat.update({
+            where: { id },
+            data: {
+                isAvailable: false,
+                // We don't change healthStatus, just availability
+            }
+        });
+        return { success: true };
+    } catch (error) {
+        console.error('Failed to mark goat as sold:', error);
+        return { success: false, error: 'Database error' };
+    }
+}
