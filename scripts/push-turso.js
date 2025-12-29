@@ -51,6 +51,21 @@ async function main() {
             }
         }
 
+        // Then run the order tables (User, Order, OrderItem)
+        const orderSqlPath = path.join(process.cwd(), 'scripts', 'create-order-tables.sql');
+        if (fs.existsSync(orderSqlPath)) {
+            console.log("Creating Order tables (User, Order, OrderItem)...");
+            const orderSql = fs.readFileSync(orderSqlPath, 'utf-8');
+            const orderStatements = orderSql.split(';').filter(s => s.trim());
+
+            for (const stmt of orderStatements) {
+                if (stmt.trim()) {
+                    console.log("Running:", stmt.substring(0, 50) + "...");
+                    await client.execute(stmt);
+                }
+            }
+        }
+
         console.log("✅ Tables created successfully in Turso.");
 
     } catch (e) {
