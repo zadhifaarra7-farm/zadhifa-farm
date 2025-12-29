@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { getBreedingStock, simulateMating } from '@/lib/actions/breeding';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Dna, ArrowRight, Activity, Zap } from 'lucide-react';
+import { Dna, ArrowRight, Activity, Zap, ArrowLeft, Home } from 'lucide-react';
 import Link from 'next/link';
 
 export default function BreedingPage() {
@@ -29,6 +29,24 @@ export default function BreedingPage() {
     return (
         <div className="min-h-screen bg-[#0a0f0d] p-8">
             <div className="max-w-6xl mx-auto space-y-8">
+                {/* Navigation Header */}
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                        <Link href="/dashboard">
+                            <Button variant="secondary" size="sm" className="gap-2">
+                                <ArrowLeft className="w-4 h-4" />
+                                Kembali
+                            </Button>
+                        </Link>
+                    </div>
+                    <Link href="/dashboard">
+                        <Button variant="ghost" size="sm" className="gap-2">
+                            <Home className="w-4 h-4" />
+                            Dashboard
+                        </Button>
+                    </Link>
+                </div>
+
                 <div className="flex items-center gap-4 text-purple-400 mb-8">
                     <Dna className="w-10 h-10" />
                     <div>

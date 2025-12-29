@@ -1,12 +1,12 @@
 import InventoryManagement from '@/components/dashboard/InventoryManagement';
-import InventoryTable from "@/components/dashboard/InventoryTable";
-import { getInventory } from "@/lib/actions/inventory";
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
 
 export const dynamic = 'force-dynamic';
 
 export default async function InventoryPage() {
     return (
-        <div className="p-6">
+        <div className="min-h-screen bg-[#0a0f0d] p-8">
+            <DashboardHeader title="Kelola Inventaris" subtitle="Manajemen data domba" />
             <InventoryManagement />
         </div>
     );
