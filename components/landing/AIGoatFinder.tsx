@@ -283,10 +283,20 @@ export default function AIGoatFinder() {
                                                     <span className="text-sm font-bold text-farm-300">{goat.match}% Cocok</span>
                                                 </div>
 
-                                                {/* Image Placeholder */}
+                                                {/* Goat Image */}
                                                 <div className="h-48 bg-surface-elevated relative overflow-hidden shrink-0">
                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                                                    <div className="w-full h-full bg-farm-900/20 group-hover:scale-105 transition-transform duration-700" />
+                                                    {goat.image ? (
+                                                        <img
+                                                            src={goat.image}
+                                                            alt={goat.name}
+                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-full h-full bg-farm-900/20 flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
+                                                            <span className="text-6xl">🐑</span>
+                                                        </div>
+                                                    )}
                                                 </div>
 
                                                 <div className="p-6 flex flex-col flex-1">
