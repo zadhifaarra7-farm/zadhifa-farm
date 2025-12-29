@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Search, Calculator, Calendar, Check, Star, ShoppingCart, X, User, Phone, FileText } from 'lucide-react';
+import { Search, Calculator, Calendar, Check, Star, ShoppingCart, X, User, Phone, FileText, AlertTriangle } from 'lucide-react';
 import { searchGoats } from '@/lib/actions/ai-finder';
 import { createOrderById } from '@/lib/actions/order';
 
@@ -17,7 +17,8 @@ interface Goat {
     weight: number;
     price: number;
     match: number;
-    image?: string;
+    image?: string | null;
+    isAlternative?: boolean;
 }
 
 export default function AIGoatFinder() {
@@ -254,6 +255,25 @@ export default function AIGoatFinder() {
                                         Ubah Pencarian
                                     </Button>
                                 </div>
+
+                                {results.length > 0 && results[0].isAlternative && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mb-8 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl flex items-start md:items-center gap-4 text-yellow-200"
+                                    >
+                                        <div className="p-2 bg-yellow-500/20 rounded-lg shrink-0">
+                                            <AlertTriangle className="w-6 h-6 text-yellow-500" />
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-lg text-yellow-400">Budget Tidak Mencukupi</p>
+                                            <p className="text-sm md:text-base opacity-80 leading-relaxed">
+                                                Mohon maaf, kami belum memiliki domba dengan harga di bawah <span className="font-bold text-white">{formatRupiah(budget)}</span>.
+                                                <br />Berikut adalah 3 rekomendasi <strong>termurah</strong> yang kami miliki saat ini sebagai alternatif:
+                                            </p>
+                                        </div>
+                                    </motion.div>
+                                )}
 
                                 <div className="grid md:grid-cols-3 gap-6">
                                     {results.map((goat, i) => (

@@ -73,15 +73,18 @@ export async function searchGoats(params: SearchParams) {
             const weightScore = Math.min(15, (Number(goat.currentWeight) / 40) * 15);
             score += Math.round(weightScore);
 
-            // Parse media URLs for images
-            let imageUrl = null;
+            // Parse media URLs for images with robust fallback
+            let imageUrl = goat.thumbnailUrl || null;
+
             if (goat.mediaUrls) {
                 try {
                     const urls = JSON.parse(goat.mediaUrls);
                     if (Array.isArray(urls) && urls.length > 0) {
+                        // Prefer the first image from mediaUrls
                         imageUrl = urls[0];
                     }
                 } catch (e) {
+                    // If not JSON, maybe it's a direct URL
                     if (typeof goat.mediaUrls === 'string' && goat.mediaUrls.startsWith('http')) {
                         imageUrl = goat.mediaUrls;
                     }
