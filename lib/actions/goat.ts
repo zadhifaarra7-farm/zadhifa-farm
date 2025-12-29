@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
 export async function addGoat(formData: FormData) {
+    console.log('addGoat called with formData');
+
     const breed = formData.get('breed') as string;
     const gender = formData.get('gender') as string;
     const weight = parseFloat(formData.get('weight') as string) || 30;
@@ -11,11 +13,16 @@ export async function addGoat(formData: FormData) {
     const birthDate = formData.get('birthDate') as string;
     const notes = formData.get('notes') as string;
 
+    console.log('Parsed data:', { breed, gender, weight, price, birthDate, notes });
+
     try {
         const count = await prisma.goat.count();
-        const code = `ZF-${new Date().getFullYear()}-${String(count + 1).padStart(4, '0')}`;
+        console.log('Current goat count:', count);
 
-        await prisma.goat.create({
+        const code = `ZF-${new Date().getFullYear()}-${String(count + 1).padStart(4, '0')}`;
+        console.log('Generated code:', code);
+
+        const newGoat = await prisma.goat.create({
             data: {
                 registrationCode: code,
                 name: `${breed} ${gender === 'MALE' ? 'Jantan' : 'Betina'}`,
@@ -29,17 +36,20 @@ export async function addGoat(formData: FormData) {
                 isAvailable: true,
                 purposes: 'QURBAN,BREEDING',
                 qualityGrade: 'STANDARD',
-                notes: notes || undefined,
+                notes: notes || null,
                 tags: JSON.stringify(['Premium']),
                 mediaUrls: JSON.stringify([]),
             }
         });
 
+        console.log('Goat created successfully:', newGoat.id);
+
         revalidatePath('/dashboard/inventory');
-        return { success: true };
+        return { success: true, goat: { id: newGoat.id, registrationCode: newGoat.registrationCode } };
     } catch (error) {
         console.error('Error adding goat:', error);
-        return { success: false, error: 'Gagal menambah data domba' };
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return { success: false, error: `Gagal menambah data domba: ${errorMessage}` };
     }
 }
 
@@ -90,9 +100,21 @@ export async function deleteGoat(id: string) {
 export async function getAllGoats() {
     try {
         const goats = await prisma.goat.findMany({
-            orderBy: { createdAt: 'desc' }
+            orderBy: { createdAt: 'desc' },
+            select: {
+                id: true,
+                registrationCode: true,
+                name: true,
+                breed: true,
+                gender: true,
+                currentWeight: true,
+                basePrice: true,
+                isAvailable: true,
+                notes: true,
+            }
         });
-        return goats;
+        // Serialize untuk menghindari masalah dengan DateTime objects
+        return JSON.parse(JSON.stringify(goats));
     } catch (error) {
         console.error('Error fetching goats:', error);
         return [];
