@@ -4,14 +4,8 @@ import { prisma } from '@/lib/prisma'
 
 export async function getInventory() {
     try {
+        // Simple query without relations (Pen and WeightRecord tables may not exist in cloud)
         const goats = await prisma.goat.findMany({
-            include: {
-                pen: true,
-                weightHistory: {
-                    orderBy: { measuredAt: 'desc' },
-                    take: 1
-                }
-            },
             orderBy: { updatedAt: 'desc' }
         });
 
@@ -23,8 +17,7 @@ export async function getInventory() {
             currentWeight: Number(goat.currentWeight),
             age: calculateAge(goat.birthDate),
             status: goat.healthStatus,
-            pen: goat.pen?.name || 'Unassigned',
-            // For table display
+            pen: 'Kandang Utama', // Default since Pen table may not exist
             rawId: goat.id
         }));
     } catch (error) {
