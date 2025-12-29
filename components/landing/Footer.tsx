@@ -50,11 +50,11 @@ export default function Footer() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-white">Zadhifa Farm</h3>
-                                    <p className="text-sm text-farm-400">Ternak Premium Masa Depan</p>
+                                    <p className="text-sm text-farm-400">Dari Hati, Untuk Rasa Berkualitas Premium</p>
                                 </div>
                             </div>
                             <p className="text-text-muted text-sm leading-relaxed">
-                                "Dari Hati, Untuk Rasa Berkualitas Premium"
+                                Ternak premium masa depan dari peternakan modern Indonesia.
                             </p>
                         </motion.div>
 
