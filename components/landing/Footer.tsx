@@ -120,6 +120,47 @@ export default function Footer() {
                     </div>
                 </div>
 
+                {/* Map Section */}
+                <div className="border-t border-white/5">
+                    <div className="container-custom px-4 py-12">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="space-y-6"
+                        >
+                            <div className="text-center">
+                                <h4 className="text-xl font-semibold text-white mb-2">📍 Lokasi Kami</h4>
+                                <p className="text-text-muted text-sm">Kunjungi peternakan kami langsung</p>
+                            </div>
+                            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.5384661835044!2d107.6123456!3d-7.0654321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e8d1b7a6e0ed%3A0x123456789abcdef!2sZadhifa%20Farm!5e0!3m2!1sen!2sid!4v1703000000000!5m2!1sen!2sid"
+                                    width="100%"
+                                    height="350"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    className="grayscale hover:grayscale-0 transition-all duration-500"
+                                />
+                                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#0a0f0d]/50 to-transparent" />
+                            </div>
+                            <div className="text-center">
+                                <a
+                                    href="https://maps.app.goo.gl/C4jU2RvAyucA2byw5"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-farm-500/10 border border-farm-500/20 text-farm-400 hover:bg-farm-500/20 transition-colors"
+                                >
+                                    <MapPin className="w-5 h-5" />
+                                    <span>Buka di Google Maps</span>
+                                </a>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+
                 {/* Bottom Bar */}
                 <div className="border-t border-white/5">
                     <div className="container-custom px-4 py-6">
